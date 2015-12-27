@@ -4,13 +4,9 @@
     display: flex;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    width: 300px;
-    height: 250px;
-    background-color: lightgrey;
 }
 
 .flex-item {
-    background-color: cornflowerblue;
     width: 100px;
     height: 100px;
     margin: 10px;
