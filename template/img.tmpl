@@ -10,12 +10,20 @@
 		<link rel="stylesheet" type="text/css" href="static/css/webcam.css" media="screen" />
 	</head>
 	<body>
-		<div class="title">Parcours du dossier {{.Title}}</div>
-		{{if .Folders}}
-		<div class="flex-container folders">
-			{{range .Folders}}<div class="flex-folder"><a href="/{{ .Link }}">{{ .Name }}</a></div>
+		{{if .Breadcrum}}
+			<div class="breadcrum">Parcours du dossier <a href="/">racine</a>
+				{{range .Breadcrum}}> <a href="{{.}}">{{.}}</a>{{end}}
+			</div>
+		{{end}}
+		{{if .Values}}
+			{{range $month := .Months}}
+				<div class="month">{{index $.MonthsName $month}}</div>
+				<div class="flex-container folders">
+				{{ range $value := index $.Values $month }}
+					<div class="flex-folder"><a href="/{{ $value.Link }}">{{ $value.Name }}</a></div>
+				{{ end }}
+				</div>
 			{{end}}
-	  </div>
 		{{end}}
 		{{if .Pictures}}
 		<div class="flex-container pictures">

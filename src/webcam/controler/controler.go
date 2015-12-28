@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"regexp"
+	"sort"
 	"strings"
 	"text/template"
 )
@@ -17,18 +18,24 @@ type Folder struct {
 }
 
 type Data struct {
-	Title    string
-	Pictures []string
-	Folders  []Folder
+	Title      string
+	Breadcrum  []string
+	Pictures   []string
+	Values     map[string][]Folder
+	Months     []string
+	MonthsName map[string]string
 }
 
-var re = regexp.MustCompile("[0-9]+-([0-9]+).*")
+var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Aout", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
+
+var re = regexp.MustCompile("([0-9]+)-([0-9]+).*")
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
 func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
 	r.ParseForm()
-	folder := path.Join(dataDir, r.URL.Path[1:])
+	folderS := r.URL.Path[1:]
+	folder := path.Join(dataDir, folderS)
 	log.Println("Recherche des images dans '", folder, "'")
 
 	// Return a 404 if the template doesn't exist
@@ -46,34 +53,56 @@ func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
 		return
 	}
 
-	var picturesSt string
-	li := strings.LastIndex(folder, "/")
+	title := ""
+	li := strings.LastIndex(folderS, "/")
 	if li != -1 {
-		picturesSt = folder[li+1:]
+		title = folderS[li+1:]
+	} else {
+		title = folderS
 	}
 	data := Data{}
-	data.Title = picturesSt
-
+	data.Title = title
+	data.Values = make(map[string][]Folder)
+	data.MonthsName = monthsName
+	if len(folderS) > 0 {
+		data.Breadcrum = strings.Split(folderS, "/")
+	}
 	files, err := ioutil.ReadDir(folder)
 	check(err)
 
 	for _, file := range files {
 		if file.IsDir() {
 			f := Folder{}
+			month := ""
 			f.Link = file.Name()
 			matches := re.FindStringSubmatch(f.Link)
 			if len(matches) > 0 {
-				f.Name = matches[1]
+				f.Name = matches[2]
+				month = matches[1]
 			} else {
 				f.Name = f.Link
 			}
 
-			data.Folders = append(data.Folders, f)
+			v, ok := data.Values[month]
+			if !ok {
+				data.Values[month] = make([]Folder, 5)
+			}
+			data.Values[month] = append(v, f)
 		} else {
 			data.Pictures = append(data.Pictures, file.Name())
 		}
 	}
 
+	// extraction des mois
+	data.Months = make([]string, len(data.Values))
+	i := 0
+	for k, _ := range data.Values {
+		data.Months[i] = k
+		i++
+	}
+	sort.Strings(data.Months)
+
+	// generation finale
 	var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 	err = templates.Execute(w, data)
 	check(err)
