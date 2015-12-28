@@ -88,7 +88,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
 				data.Values[month] = make([]Folder, 5)
 			}
 			data.Values[month] = append(v, f)
-		} else {
+		} else if !strings.HasPrefix(file.Name(), ".") {
 			data.Pictures = append(data.Pictures, file.Name())
 		}
 	}
