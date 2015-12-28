@@ -26,7 +26,7 @@
 			{{end}}
 		{{end}}
 		{{if .Pictures}}
-		<div class="flex-container flex-center pictures">
+		<div class="flex-container pictures">
 			{{range .Pictures}}<div class="flex-img"><a class="fancybox" rel="group" href="/img/{{$.Title}}/{{ . }}" title="{{ . }}"><img src="/thumb/{{$.Title}}/{{ . }}" alt=""/></a></div>
 			{{end}}
 		</div>
