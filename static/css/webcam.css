@@ -4,7 +4,10 @@
   display: flex;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin: auto;
+}
+
+.flex-center {
+  justify-content: center;
 }
 
 .flex-folder {
