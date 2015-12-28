@@ -13,13 +13,13 @@
 		<div class="title">Parcours du dossier {{.Title}}</div>
 		{{if .Folders}}
 		<div class="flex-container folders">
-			{{range .Folders}}<div class="flex-item"><a href="/{{ . }}">{{ . }}</a></div>
+			{{range .Folders}}<div class="flex-folder"><a href="/{{ .Link }}">{{ .Name }}</a></div>
 			{{end}}
 	  </div>
 		{{end}}
 		{{if .Pictures}}
 		<div class="flex-container pictures">
-			{{range .Pictures}}<div class="flex-item"><a class="fancybox" rel="group" href="/img/{{$.Title}}/{{ . }}" title="{{ . }}"><img src="/thumb/{{$.Title}}/{{ . }}" alt="" width="50px" height="50px" /></a></div>
+			{{range .Pictures}}<div class="flex-img"><a class="fancybox" rel="group" href="/img/{{$.Title}}/{{ . }}" title="{{ . }}"><img src="/thumb/{{$.Title}}/{{ . }}" alt=""/></a></div>
 			{{end}}
 		</div>
 		{{end}}

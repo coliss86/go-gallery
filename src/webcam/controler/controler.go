@@ -6,15 +6,23 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"regexp"
 	"strings"
 	"text/template"
 )
 
+type Folder struct {
+	Link string
+	Name string
+}
+
 type Data struct {
 	Title    string
 	Pictures []string
-	Folders  []string
+	Folders  []Folder
 }
+
+var re = regexp.MustCompile("[0-9]+-([0-9]+).*")
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
@@ -49,11 +57,20 @@ func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
 	files, err := ioutil.ReadDir(folder)
 	check(err)
 
-	for _, f := range files {
-		if f.IsDir() {
-			data.Folders = append(data.Folders, f.Name())
+	for _, file := range files {
+		if file.IsDir() {
+			f := Folder{}
+			f.Link = file.Name()
+			matches := re.FindStringSubmatch(f.Link)
+			if len(matches) > 0 {
+				f.Name = matches[1]
+			} else {
+				f.Name = f.Link
+			}
+
+			data.Folders = append(data.Folders, f)
 		} else {
-			data.Pictures = append(data.Pictures, f.Name())
+			data.Pictures = append(data.Pictures, file.Name())
 		}
 	}
 
