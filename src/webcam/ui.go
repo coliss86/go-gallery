@@ -28,7 +28,9 @@ type Data struct {
 
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Aout", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
 
-var re = regexp.MustCompile("([0-9]+)-([0-9]+).*")
+var folderRE = regexp.MustCompile("([0-9]+)-([0-9]+).*")
+
+var ignoreRE = regexp.MustCompile(`.git|.svn|.DS_Store|Thumbs.db`)
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
@@ -75,7 +77,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
 			f := Folder{}
 			month := ""
 			f.Link = file.Name()
-			matches := re.FindStringSubmatch(f.Link)
+			matches := folderRE.FindStringSubmatch(f.Link)
 			if len(matches) > 0 {
 				f.Name = matches[2]
 				month = matches[1]
@@ -88,7 +90,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
 				data.Values[month] = make([]Folder, 5)
 			}
 			data.Values[month] = append(v, f)
-		} else if !strings.HasPrefix(file.Name(), ".") {
+		} else if !ignoreRE.MatchString(file.Name()) {
 			data.Pictures = append(data.Pictures, file.Name())
 		}
 	}
