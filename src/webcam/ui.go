@@ -1,4 +1,4 @@
-package controler
+package main
 
 import (
 	"io/ioutil"
@@ -106,44 +106,4 @@ func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
 	var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 	err = templates.Execute(w, data)
 	check(err)
-}
-
-func RenderImg(w http.ResponseWriter, r *http.Request, dataDir string) {
-	r.ParseForm()
-	img := r.URL.Path[5:]
-	serveFile(w, r, dataDir, img)
-}
-
-func RenderThumb(w http.ResponseWriter, r *http.Request, dataDir string) {
-	r.ParseForm()
-	thumb := r.URL.Path[7:]
-	serveFile(w, r, dataDir, thumb)
-}
-
-func serveFile(w http.ResponseWriter, r *http.Request, dataDir string, file string) {
-	ip := path.Join(dataDir, file)
-
-	// Return a 404 if the template doesn't exist
-	info, err := os.Stat(ip)
-	if err != nil {
-		if os.IsNotExist(err) {
-			http.NotFound(w, r)
-			return
-		}
-	}
-
-	// Return a 404 if the request is for a directory
-	if info.IsDir() {
-		http.NotFound(w, r)
-		return
-	}
-
-	fileOs, err := os.Open(ip)
-	http.ServeContent(w, r, info.Name(), info.ModTime(), fileOs)
-}
-
-func check(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
 }
