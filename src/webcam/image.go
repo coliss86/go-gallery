@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -61,6 +63,11 @@ func imageMagickThumbnail(origName, newName string) {
 	var cmd *exec.Cmd
 	path, _ := exec.LookPath("convert")
 	cmd = exec.Command(path, args...)
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
 	err := cmd.Run()
-	check(err)
+	if err != nil {
+		log.Println("Erreur de génération : ", err, ". stdout :", stdout.String(), ". stderr :", stderr.String())
+	}
 }
