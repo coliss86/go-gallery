@@ -50,6 +50,7 @@ func serveFile(w http.ResponseWriter, r *http.Request, file string) {
 	}
 
 	fileOs, err := os.Open(file)
+	defer fileOs.Close()
 	http.ServeContent(w, r, info.Name(), info.ModTime(), fileOs)
 }
 
