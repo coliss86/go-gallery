@@ -34,10 +34,10 @@ var ignoreRE = regexp.MustCompile(`.git|.svn|.DS_Store|Thumbs.db`)
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
-func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
+func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 	r.ParseForm()
 	folderS := r.URL.Path[1:]
-	folder := path.Join(dataDir, folderS)
+	folder := path.Join(conf.DataDir, folderS)
 	log.Println("Recherche des images dans '", folder, "'")
 
 	// Return a 404 if the template doesn't exist

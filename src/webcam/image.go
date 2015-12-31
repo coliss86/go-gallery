@@ -9,20 +9,18 @@ import (
 	"path"
 )
 
-func RenderImg(w http.ResponseWriter, r *http.Request, dataDir string) {
+func RenderImg(w http.ResponseWriter, r *http.Request, conf Conf) {
 	r.ParseForm()
 	img := r.URL.Path[5:]
-	serveFile(w, r, path.Join(dataDir, img))
+	serveFile(w, r, path.Join(conf.DataDir, img))
 }
 
-func RenderThumb(w http.ResponseWriter, r *http.Request, dirs []string) {
+func RenderThumb(w http.ResponseWriter, r *http.Request, conf Conf) {
 	r.ParseForm()
 	thumb := r.URL.Path[7:]
-	dataDir := dirs[0]
-	cacheDir := dirs[1]
 
-	ip := path.Join(dataDir, thumb)
-	it := path.Join(cacheDir, thumb)
+	ip := path.Join(conf.DataDir, thumb)
+	it := path.Join(conf.CacheDir, thumb)
 	// Return a 404 if the template doesn't exist
 	infoip, err := os.Stat(ip)
 	if err != nil && os.IsNotExist(err) || infoip.IsDir() {
