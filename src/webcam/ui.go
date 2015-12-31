@@ -13,8 +13,9 @@ import (
 )
 
 type Folder struct {
-	Link string
-	Name string
+	Link  string
+	Name  string
+	Image string
 }
 
 type Data struct {
@@ -29,7 +30,6 @@ type Data struct {
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Aout", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
 
 var folderRE = regexp.MustCompile("([0-9]+)-([0-9]+).*")
-
 var ignoreRE = regexp.MustCompile(`.git|.svn|.DS_Store|Thumbs.db`)
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
@@ -74,22 +74,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
 
 	for _, file := range files {
 		if file.IsDir() {
-			f := Folder{}
-			month := ""
-			f.Link = file.Name()
-			matches := folderRE.FindStringSubmatch(f.Link)
-			if len(matches) > 0 {
-				f.Name = matches[2]
-				month = matches[1]
-			} else {
-				f.Name = f.Link
-			}
-
-			v, ok := data.Values[month]
-			if !ok {
-				data.Values[month] = make([]Folder, 5)
-			}
-			data.Values[month] = append(v, f)
+			manageFolder(folder, file, data)
 		} else if !ignoreRE.MatchString(file.Name()) {
 			data.Pictures = append(data.Pictures, file.Name())
 		}
@@ -108,4 +93,34 @@ func RenderUI(w http.ResponseWriter, r *http.Request, dataDir string) {
 	var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 	err = templates.Execute(w, data)
 	check(err)
+}
+
+func manageFolder(folder string, file os.FileInfo, data Data) {
+	f := Folder{}
+	month := ""
+	f.Link = file.Name()
+	matches := folderRE.FindStringSubmatch(f.Link)
+	if len(matches) > 0 {
+		f.Name = matches[2]
+		month = matches[1]
+	} else {
+		f.Name = f.Link
+	}
+
+	files, err := ioutil.ReadDir(path.Join(folder, file.Name()))
+	check(err)
+
+	for _, file := range files {
+		if !file.IsDir() && !ignoreRE.MatchString(file.Name()) {
+			f.Image = file.Name()
+			break
+		}
+	}
+
+	v, ok := data.Values[month]
+	if !ok {
+		data.Values[month] = make([]Folder, 5)
+	}
+	data.Values[month] = append(v, f)
+
 }

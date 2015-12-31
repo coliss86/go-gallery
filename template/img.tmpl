@@ -11,7 +11,7 @@
 	</head>
 	<body>
 		{{if .Breadcrum}}
-			<div class="breadcrum">Parcours du dossier <a href="/">racine</a>
+			<div class="breadcrum"><a href="/">Home</a>
 				{{range .Breadcrum}}> <a href="{{.}}">{{.}}</a>{{end}}
 			</div>
 		{{end}}
@@ -20,7 +20,7 @@
 				<div class="month">{{index $.MonthsName $month}}</div>
 				<div class="flex-container folders">
 				{{ range $value := index $.Values $month }}
-					<div class="flex-folder"><a href="/{{ $value.Link }}">{{ $value.Name }}</a></div>
+					<div class="flex-folder"><a href="/{{ $value.Link }}"><img src="/thumb/{{ $value.Link }}/{{ $value.Image }}"><p>{{ $value.Name }}</p></a></div>
 				{{ end }}
 				</div>
 			{{end}}

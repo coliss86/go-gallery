@@ -11,13 +11,15 @@
   position: relative;
 }
 
-.flex-folder a {
-  bottom: -0.2em;
-  font-size: 300%;
-  position: absolute;
-  right: 0;
-  text-decoration: none;
-  font-family: sans-serif;
+.flex-folder p {
+    bottom: -1.2em;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    font-family: sans-serif;
+    font-size: 300%;
+    position: absolute;
+    right: 0;
+    text-decoration: none;
 }
 
 .flex-img img, .flex-folder {
