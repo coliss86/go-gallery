@@ -1,7 +1,11 @@
 .breadcrum {
   padding-bottom: 1em;
-
 }
+
+.breadcrum img {
+  vertical-align: top;
+}
+
 .flex-container {
   display: -webkit-flex;
   display: flex;
