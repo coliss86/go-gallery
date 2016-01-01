@@ -1,4 +1,7 @@
+.breadcrum {
+  padding-bottom: 1em;
 
+}
 .flex-container {
   display: -webkit-flex;
   display: flex;
@@ -30,7 +33,7 @@
   margin: 20px;
 }
 
-.month {
+.month, .picture {
   border-bottom: 1px solid #ddd;
   font-size: 150%;
   padding-left: 0.5em;

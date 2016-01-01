@@ -12,7 +12,7 @@ import (
 	"text/template"
 )
 
-type Folder struct {
+type Item struct {
 	Link  string
 	Name  string
 	Image string
@@ -20,17 +20,19 @@ type Folder struct {
 
 type Data struct {
 	Title      string
-	Breadcrum  []string
+	Breadcrum  []Item
 	Pictures   []string
-	Values     map[string][]Folder
+	Values     map[string][]Item
 	Months     []string
 	MonthsName map[string]string
+	Folder     string
 }
 
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Aout", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre"}
 
 var folderRE = regexp.MustCompile("([0-9]+)-([0-9]+).*")
-var ignoreRE = regexp.MustCompile(`.git|.svn|.DS_Store|Thumbs.db`)
+var ignoreRE = regexp.MustCompile(`.git|.svn|.DS_Store|Thumbs.db|meta.properties`)
+var urlRE = regexp.MustCompile("(.*)/([^/]*)/?")
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
@@ -42,36 +44,52 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 
 	// Return a 404 if the template doesn't exist
 	info, err := os.Stat(folder)
-	if err != nil {
-		if os.IsNotExist(err) {
-			http.NotFound(w, r)
-			return
-		}
-	}
-
-	// Return a 404 if the request is for a directory
-	if !info.IsDir() {
+	if err != nil && os.IsNotExist(err) || !info.IsDir() {
 		http.NotFound(w, r)
 		return
 	}
 
-	title := ""
-	li := strings.LastIndex(folderS, "/")
-	if li != -1 {
-		title = folderS[li+1:]
-	} else {
-		title = folderS
-	}
 	data := Data{}
+
+	//title
+	title := ""
+	matches := urlRE.FindStringSubmatch(folderS)
+	if len(matches) > 0 {
+		title = matches[2]
+	}
 	data.Title = title
-	data.Values = make(map[string][]Folder)
 	data.MonthsName = monthsName
+	if strings.HasSuffix(folderS, "/") {
+		data.Folder = folderS
+	} else if len(folderS) > 0 {
+		data.Folder = folderS + "/"
+	}
+
+	// breadcrum
 	if len(folderS) > 0 {
-		data.Breadcrum = strings.Split(folderS, "/")
+		splits := strings.Split(folderS, "/")
+		var breadcrum []Item
+		for i, split := range splits {
+			if len(split) > 0 {
+				item := Item{}
+				item.Name = split
+				if i == 0 {
+					item.Link = "/" + split
+				} else {
+					item.Link = breadcrum[i-1].Link + "/" + split
+				}
+				breadcrum = append(breadcrum, item)
+			}
+		}
+		breadcrum[len(breadcrum)-1].Link = ""
+
+		data.Breadcrum = breadcrum
+
 	}
 	files, err := ioutil.ReadDir(folder)
 	check(err)
 
+	data.Values = make(map[string][]Item)
 	for _, file := range files {
 		if file.IsDir() {
 			manageFolder(folder, file, data)
@@ -96,7 +114,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 }
 
 func manageFolder(folder string, file os.FileInfo, data Data) {
-	f := Folder{}
+	f := Item{}
 	month := ""
 	f.Link = file.Name()
 	matches := folderRE.FindStringSubmatch(f.Link)
@@ -107,6 +125,7 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 		f.Name = f.Link
 	}
 
+	// thumb folder
 	files, err := ioutil.ReadDir(path.Join(folder, file.Name()))
 	check(err)
 
@@ -117,9 +136,10 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 		}
 	}
 
+	// month
 	v, ok := data.Values[month]
 	if !ok {
-		data.Values[month] = make([]Folder, 5)
+		data.Values[month] = make([]Item, 5)
 	}
 	data.Values[month] = append(v, f)
 

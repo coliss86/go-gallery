@@ -3,16 +3,23 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Dossier {{.Title}}</title>
-		<script type="text/javascript" src="static/js/jquery-1.10.1.min.js"></script>
-		<script type="text/javascript" src="static/js/jquery.fancybox-2.1.5.pack.js"></script>
-		<script type="text/javascript" src="static/js/webcam.js"></script>
-		<link rel="stylesheet" type="text/css" href="static/css/jquery.fancybox.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="static/css/webcam.css" media="screen" />
+		<script type="text/javascript" src="/static/js/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="/static/js/jquery.fancybox-2.1.5.pack.js"></script>
+		<script type="text/javascript" src="/static/js/webcam.js"></script>
+		<link rel="stylesheet" type="text/css" href="/static/css/jquery.fancybox.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="/static/css/webcam.css" media="screen" />
 	</head>
 	<body>
 		{{if .Breadcrum}}
 			<div class="breadcrum"><a href="/">Home</a>
-				{{range .Breadcrum}}> <a href="{{.}}">{{.}}</a>{{end}}
+				{{range .Breadcrum}} >
+					{{if .Link}}
+					<a href="{{.Link}}">{{.Name}}</a>
+					{{else}}
+					{{.Name}}
+					{{end}}
+				{{end}}
+				<a href=""><img src="/static/img/arrow_rotate_clockwise.png"></a>
 			</div>
 		{{end}}
 		{{if .Values}}
@@ -20,16 +27,17 @@
 				<div class="month">{{index $.MonthsName $month}}</div>
 				<div class="flex-container folders">
 				{{ range $value := index $.Values $month }}
-					<div class="flex-folder"><a href="/{{ $value.Link }}"><img src="/thumb/{{ $value.Link }}/{{ $value.Image }}"><p>{{ $value.Name }}</p></a></div>
+					<div class="flex-folder"><a href="/{{ $.Folder }}{{ $value.Link }}"><img src="/thumb/{{ $.Folder }}{{ $value.Link }}/{{ $value.Image }}"><p>{{ $value.Name }}</p></a></div>
 				{{ end }}
 				</div>
 			{{end}}
 		{{end}}
 		{{if .Pictures}}
-		<div class="flex-container pictures">
-			{{range .Pictures}}<div class="flex-img"><a class="fancybox" rel="group" href="/img/{{$.Title}}/{{ . }}" title="{{ . }}"><img src="/thumb/{{$.Title}}/{{ . }}" alt=""/></a></div>
-			{{end}}
-		</div>
+			<div class="picture">Photos</div>
+			<div class="flex-container pictures">
+				{{range .Pictures}}<div class="flex-img"><a class="fancybox" rel="group" href="/img/{{ $.Folder }}{{ . }}" title="{{ . }}"><img src="/thumb/{{ $.Folder }}{{ . }}" alt=""/></a></div>
+				{{end}}
+			</div>
 		{{end}}
 	</body>
 </html>

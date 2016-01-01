@@ -9,11 +9,11 @@ $(document).ready(function() {
     afterLoad: function() {
         this.title = '<a href="' + this.href + '">Download</a> ' + this.title;
     },
-    afterShow: function() {
+    /*afterShow: function() {
         $('<div class="expander"></div>').appendTo(this.inner).click(function() {
             $(document).toggleFullScreen();
         });
-    },
+    },*/
     loop: false,
     nextEffect: 'none',
     prevEffect: 'none',
