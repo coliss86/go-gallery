@@ -37,6 +37,7 @@ func main() {
 	log.Println("Listening on", port)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/img/", makeHandler(RenderImg, conf))
+	http.HandleFunc("/download/", makeHandler(RenderDownload, conf))
 	http.HandleFunc("/thumb/", makeHandler(RenderThumb, conf))
 	http.HandleFunc("/", makeHandler(RenderUI, conf))
 	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)

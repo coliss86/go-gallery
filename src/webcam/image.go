@@ -7,7 +7,10 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"regexp"
 )
+
+var urlImgRE = regexp.MustCompile("(.*)/([^/]*)/?")
 
 func RenderImg(w http.ResponseWriter, r *http.Request, conf Conf) {
 	r.ParseForm()
@@ -37,6 +40,20 @@ func RenderThumb(w http.ResponseWriter, r *http.Request, conf Conf) {
 	}
 
 	serveFile(w, r, it)
+}
+
+func RenderDownload(w http.ResponseWriter, r *http.Request, conf Conf) {
+	r.ParseForm()
+	img := r.URL.Path[10:]
+	matches := urlImgRE.FindStringSubmatch(img)
+	title := ""
+	if len(matches) > 0 {
+		title = matches[2]
+	} else {
+		title = img
+	}
+	w.Header().Set("Content-Disposition", "attachment; filename="+title)
+	serveFile(w, r, path.Join(conf.DataDir, img))
 }
 
 func serveFile(w http.ResponseWriter, r *http.Request, file string) {
