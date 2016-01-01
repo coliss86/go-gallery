@@ -32,7 +32,7 @@ var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mar
 
 var folderRE = regexp.MustCompile("([0-9]+)-([0-9]+).*")
 var ignoreRE = regexp.MustCompile(`.git|.svn|.DS_Store|Thumbs.db|meta.properties`)
-var urlRE = regexp.MustCompile("(.*)/([^/]*)/?")
+var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
@@ -51,9 +51,9 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 
 	data := Data{}
 
-	//title
+	// title
 	title := ""
-	matches := urlRE.FindStringSubmatch(folderS)
+	matches := urlFolderRE.FindStringSubmatch(folderS)
 	if len(matches) > 0 {
 		title = matches[2]
 	}
@@ -84,11 +84,11 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 		breadcrum[len(breadcrum)-1].Link = ""
 
 		data.Breadcrum = breadcrum
-
 	}
 	files, err := ioutil.ReadDir(folder)
 	check(err)
 
+	// gestion des photos
 	data.Values = make(map[string][]Item)
 	for _, file := range files {
 		if file.IsDir() {
