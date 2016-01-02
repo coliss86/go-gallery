@@ -43,6 +43,11 @@
   padding-left: 0.5em;
 }
 
+.fancybox-title-inside-wrap img {
+  width: 16px;
+  vertical-align: bottom;
+}
+
 .expander {
     position: absolute;
     top: 5px;

@@ -7,7 +7,7 @@ $(document).ready(function() {
         }
     },
     afterLoad: function() {
-        this.title = '<a href="' + this.href.replace("/img/", "/download/") + '">Download</a> ' + this.title;
+        this.title = '<a href="' + this.href.replace("/img/", "/download/") + '"><img src="/static/img/arrow_down_32.png" ></a> ' + this.title;
     },
     /*afterShow: function() {
         $('<div class="expander"></div>').appendTo(this.inner).click(function() {
