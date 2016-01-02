@@ -12,7 +12,7 @@ Prerequisites
 
 This gallery use [convert from ImageMagick](http://www.imagemagick.org/script/convert.php) in order to generate thumbnails.
 
-On a debian :
+On debian :
 ```
 apt-get install imagemagick
 ```
@@ -27,8 +27,8 @@ How to use
 
 Clone this repo, set GOPATH and build it :
 ```
-git clone ...
-cd ...
+git clone https://github.com/gmembre/go-gallery
+cd go-gallery
 export GOPATH=`pwd`
 go install webcam
 ```
