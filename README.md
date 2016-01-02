@@ -25,9 +25,10 @@ sudo port install ImageMagick
 How to use
 ----------
 
-Clone this repo, set GOPATH and build it :
+Download the [latest release](https://github.com/gmembre/go-gallery/archive/master.zip) or clone this repo `git clone https://github.com/gmembre/go-gallery`
+
+Set GOPATH and build it :
 ```
-git clone https://github.com/gmembre/go-gallery
 cd go-gallery
 export GOPATH=`pwd`
 go install webcam
@@ -41,6 +42,16 @@ $GOPATH/bin/webcam <photo folder> <temp folder> [port]
   * 'photo folder' : *mandatory* root directory of photos
   * 'temp folder' : *mandatory* temp folder to store thumbnails
   * 'port' : *optional* http port to bind to, default is `9090`
+
+
+Reporting Issues
+----------
+  * Please report issues on [Github Issue Tracker](https://github.com/gmembre/go-gallery/issues).
+  * In your report, please provide a [jsfiddle](http://jsfiddle.net) (preferred), gist, or pasted HTML/JS with steps to **reproduce** the issue.
+  * Before reporting:
+     * Make sure you are using the latest master JS and CSS.
+     * Check existing open issues.
+  * Pull requests, documentation requests, and enhancement ideas are welcome.
 
 
 License
