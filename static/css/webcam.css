@@ -48,6 +48,10 @@
   color: #888;
 }
 
+.fancybox-tmp {
+  display: none;
+}
+
 .fancybox-title-inside-wrap img {
   width: 16px;
   vertical-align: bottom;
