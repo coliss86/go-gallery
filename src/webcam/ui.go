@@ -56,6 +56,8 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 	matches := urlFolderRE.FindStringSubmatch(folderS)
 	if len(matches) > 0 {
 		title = matches[2]
+	} else {
+		title = folderS
 	}
 	data.Title = title
 	data.MonthsName = monthsName
