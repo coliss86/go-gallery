@@ -1,7 +1,9 @@
 Go gallery
 ========
 
-Go gallery is a simple web gallery written in [golang](https://golang.org) to browse pictures hierarchy stored in a folder. It allows browsing them with a nice and elegant way.
+Go gallery is a simple web gallery written in [golang](https://golang.org) to browse pictures hierarchy stored in a folder. It allows browsing them with a nice and elegant way. It recognized month in folder name and sort them according.
+
+![Screenshot](doc/screenshot.png?raw=true "Title")
 
 Prerequisites
 ----------
