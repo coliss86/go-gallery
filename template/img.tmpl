@@ -33,7 +33,7 @@
 			{{end}}
 		{{end}}
 		{{if .Pictures}}
-			<div class="picture">Photos</div>
+			<div class="picture">Contenu du dossier '{{ .Title}}' <span>{{len .Pictures}} éléments</span></div>
 			<div class="flex-container pictures">
 				{{range .Pictures}}<div class="flex-img"><a class="fancybox" rel="group" href="/img/{{ $.Folder }}{{ . }}" title="{{ . }}"><img src="/thumb/{{ $.Folder }}{{ . }}" alt=""/></a></div>
 				{{end}}
