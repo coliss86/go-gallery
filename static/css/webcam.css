@@ -16,20 +16,58 @@
 
 .flex-folder {
   position: relative;
+  border: 3px solid white;
+  margin: 20px;
+  width: 100px;
+  height: 100px;
+}
+
+.flex-folder.folder-short {
+  box-shadow: 0px 0px 8px rgba(0,0,0,.3);
+}
+
+.flex-folder img {
+  width: 100px;
 }
 
 .flex-folder p {
-    bottom: -1.2em;
-    color: white;
-    text-shadow: 2px 2px 4px #000000;
-    font-family: sans-serif;
-    font-size: 300%;
-    position: absolute;
-    right: 0;
-    text-decoration: none;
+  bottom: -1.2em;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+  font-family: sans-serif;
+  position: absolute;
 }
 
-.flex-img img, .flex-folder {
+.folder-short p {
+  right: 0;
+  font-size: 300%;
+}
+
+.folder-long p, .folder-normal p {
+  padding-left: 5px;
+  font-size: 150%;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100px;
+}
+
+.folder-long p:hover {
+  width: inherit;
+  z-index: 10;
+  background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.65) 40%, rgba(0,0,0,0.65) 100%);
+  background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.65) 40%,rgba(0,0,0,0.65) 100%);
+  background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.65) 40%,rgba(0,0,0,0.65) 100%);
+  border-radius: 10px;
+  padding-right: 6px;
+  padding-top: 4px;
+}
+
+.folder-image {
+  border: 3px solid white;
+  box-shadow: 0px 0px 8px rgba(0,0,0,.3);
+}
+
+.flex-img img {
   width: 100px;
   height: 100px;
   border: 3px solid white;

@@ -29,7 +29,13 @@
 				<div class="month">{{index $.MonthsName $month}}</div>
 				<div class="flex-container folders">
 				{{ range $value := index $.Values $month }}
-					<div class="flex-folder"><a href="/{{ $.Folder }}{{ $value.Link }}"><img src="/thumb/{{ $.Folder }}{{ $value.Link }}/{{ $value.Image }}"><p>{{ $value.Name }}</p></a></div>
+					<div class="flex-folder {{ $value.Class }}"><a href="/{{ $.Folder }}{{ $value.Link }}">
+						{{if $value.Image }}
+							<img src="/thumb/{{ $.Folder }}{{ $value.Link }}/{{ $value.Image }}">
+						{{else}}
+							<img src="/static/img/folder_blue.png">
+						{{end}}
+						<p>{{ $value.Name }}</p></a></div>
 				{{ end }}
 				</div>
 			{{end}}

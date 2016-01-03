@@ -33,6 +33,7 @@ type Item struct {
 	Link  string
 	Name  string
 	Image string
+	Class string
 }
 
 type Data struct {
@@ -46,7 +47,7 @@ type Data struct {
 	Tags       string
 }
 
-var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Aout", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossier"}
+var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Aout", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossiers"}
 
 var folderRE = regexp.MustCompile("([0-9]+)-([0-9]+).*")
 var ignoreRE = regexp.MustCompile(`.git|.svn|.DS_Store|Thumbs.db|meta.properties`)
@@ -58,7 +59,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 	r.ParseForm()
 	folderS := r.URL.Path[1:]
 	folder := path.Join(conf.DataDir, folderS)
-	log.Println("Recherche des images dans '", folder, "'")
+	log.Println("Listing pictures in '", folder, "'")
 
 	// Return a 404 if the template doesn't exist
 	info, err := os.Stat(folder)
@@ -108,7 +109,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 	files, err := ioutil.ReadDir(folder)
 	check(err)
 
-	// gestion des photos
+	// pictures
 	data.Values = make(map[string][]Item)
 	for _, file := range files {
 		if file.IsDir() {
@@ -118,7 +119,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 		}
 	}
 
-	// extraction des mois
+	// months
 	data.Months = make([]string, len(data.Values))
 	i := 0
 	for k, _ := range data.Values {
@@ -127,7 +128,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 	}
 	sort.Strings(data.Months)
 
-	// récupération des tags
+	// tags
 	tags := tagList()
 	tag := ""
 	for i, t := range tags {
@@ -139,7 +140,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 	}
 	data.Tags = tag
 
-	// generation finale
+	// final generation
 	var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 	err = templates.Execute(w, data)
 	check(err)
@@ -153,8 +154,14 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 	if len(matches) > 0 {
 		f.Name = matches[2]
 		month = matches[1]
+		f.Class = "folder-short"
 	} else {
 		f.Name = f.Link
+		if len(f.Name) > 7 {
+			f.Class = "folder-long"
+		} else {
+			f.Class = "folder-normal"
+		}
 	}
 
 	// thumb folder
@@ -164,6 +171,7 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 	for _, file := range files {
 		if !file.IsDir() && !ignoreRE.MatchString(file.Name()) {
 			f.Image = file.Name()
+			f.Class += " folder-image"
 			break
 		}
 	}
