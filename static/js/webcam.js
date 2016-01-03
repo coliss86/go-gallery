@@ -13,8 +13,11 @@ $(document).ready(function() {
       var img = this.href.replace("/img/", "");
 
       $(".tm-input").tagsManager({
-        prefilled: ["Parent", "Benoit"],
-        CapitalizeFirstLetter: true
+        prefilled: tags,
+        CapitalizeFirstLetter: true,
+        deleteTagsOnBackspace: false,
+        preventSubmitOnEnter: false,
+        isClearInputOnEsc: false,
       });
       $(".tm-input").on('tm:pushed', function(e, tag) {
         $.post("/tag/add/" + tag, { img: img });
