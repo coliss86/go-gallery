@@ -18,14 +18,12 @@ along with GO gallery.  If not, see <http://www.gnu.org/licenses/>.
 package main
 
 import (
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"path"
 	"strings"
-	"time"
 )
 
 func ManageTag(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +47,7 @@ func tagSelect(img string, tag string) {
 	log.Println("copy", img, "to", tag)
 	src := path.Join(conf.DataDir, img)
 	dest := path.Join(conf.ExportDir, tag, path.Base(img))
-	err := copyFile(src, dest)
+	err := CopyFile(src, dest)
 	if err != nil {
 		log.Println("Copy error", src, "to", dest, ":", err)
 	}
@@ -81,39 +79,5 @@ func tagList() (tags []string) {
 			tags = append(tags, file.Name())
 		}
 	}
-	return
-}
-
-// Copies file source to destination dest.
-func copyFile(source string, dest string) (err error) {
-	sf, err := os.Open(source)
-	if err != nil {
-		return err
-	}
-	defer sf.Close()
-	df, err := os.Create(dest)
-	if err != nil {
-		return err
-	}
-	defer df.Close()
-
-	_, err = io.Copy(df, sf)
-	if err != nil {
-		return err
-	}
-
-	err = df.Close()
-	if err != nil {
-		return err
-	}
-	si, err := os.Stat(source)
-	if err != nil {
-		return err
-	}
-	err = os.Chmod(dest, si.Mode())
-	if err != nil {
-		return err
-	}
-	err = os.Chtimes(dest, time.Now(), si.ModTime())
 	return
 }
