@@ -44,7 +44,7 @@ func ManageTag(w http.ResponseWriter, r *http.Request) {
 }
 
 func tagSelect(img string, tag string) {
-	log.Println("copy", img, "to", tag)
+	log.Println("Copy", img, "to", tag)
 	src := path.Join(conf.DataDir, img)
 	dest := path.Join(conf.ExportDir, tag, path.Base(img))
 	err := CopyFile(src, dest)
@@ -54,22 +54,22 @@ func tagSelect(img string, tag string) {
 }
 
 func tagDeselect(img string, tag string) {
-	log.Println("delete", img, "from", tag)
+	log.Println("Delete", img, "from", tag)
 	dest := path.Join(conf.ExportDir, tag, path.Base(img))
 	os.Remove(dest)
 }
 
 func tagAdd(img string, tag string) {
-	log.Println("create folder", tag)
+	log.Println("Create folder", tag)
 	os.MkdirAll(path.Join(conf.ExportDir, tag), os.ModePerm)
 }
 
 func tagDelete(img string, tag string) {
-	log.Println("delete folder", tag, " NON IMPLEMENTED !!")
+	log.Println("Delete folder", tag, " NON IMPLEMENTED !!")
 }
 
 func tagList() (tags []string) {
-	log.Println("listing tag")
+	log.Println("Listing tag")
 	files, err := ioutil.ReadDir(conf.ExportDir)
 	check(err)
 
