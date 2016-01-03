@@ -41,5 +41,10 @@
 				{{end}}
 			</div>
 		{{end}}
+		{{if .Tags}}
+			<script type="text/javascript">
+			tags = [{{.Tags}}];
+			</script>
+		{{end}}
 	</body>
 </html>

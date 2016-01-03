@@ -43,6 +43,7 @@ type Data struct {
 	Months     []string
 	MonthsName map[string]string
 	Folder     string
+	Tags       string
 }
 
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Aout", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossier"}
@@ -125,6 +126,18 @@ func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
 		i++
 	}
 	sort.Strings(data.Months)
+
+	// récupération des tags
+	tags := tagList()
+	tag := ""
+	for i, t := range tags {
+		if i == 0 {
+			tag += `"` + t + `"`
+		} else {
+			tag += `,"` + t + `"`
+		}
+	}
+	data.Tags = tag
 
 	// generation finale
 	var templates = template.Must(template.ParseFiles("template/img.tmpl"))
