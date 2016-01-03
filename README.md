@@ -63,3 +63,4 @@ It also uses third-party libraries and programs:
   * famfamfam silk icons ([Creative Commons Attribution 2.5 License](http://creativecommons.org/licenses/by/2.5/) license) : http://www.famfamfam.com/lab/icons/silk/
   * woofunction icons ([GNU General Public License](http://www.gnu.org/licenses/gpl.html) license) : http://www.iconarchive.com/show/woofunction-icons-by-wefunction.html
   * Tag Manager (a jQuery plugin) ([Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/) license) https://maxfavilli.com/jquery-tag-manager
+  * Icon Author: sa-ki (License: Free for personal non-commercial use) http://sa-ki.deviantart.com
