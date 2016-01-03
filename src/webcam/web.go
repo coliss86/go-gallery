@@ -22,6 +22,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 )
@@ -29,9 +30,12 @@ import (
 const PORT = 9090
 
 type Conf struct {
-	DataDir  string
-	CacheDir string
+	DataDir   string
+	CacheDir  string
+	ExportDir string
 }
+
+var conf Conf
 
 func main() {
 	if len(os.Args) < 3 {
@@ -40,7 +44,7 @@ func main() {
 	}
 
 	var err error
-	conf := Conf{strings.Trim(os.Args[1], " "), strings.Trim(os.Args[2], " ")}
+	conf = Conf{strings.Trim(os.Args[1], " "), strings.Trim(os.Args[2], " "), strings.Trim(os.Args[1], " ") + "/export/"}
 	port := PORT
 
 	if len(os.Args) == 4 {
@@ -51,12 +55,17 @@ func main() {
 		}
 	}
 
+	dirExport := path.Dir(conf.ExportDir)
+	os.MkdirAll(dirExport, os.ModePerm)
+
 	log.Println("Listening on", port)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/img/", makeHandler(RenderImg, conf))
 	http.HandleFunc("/download/", makeHandler(RenderDownload, conf))
 	http.HandleFunc("/thumb/", makeHandler(RenderThumb, conf))
+	http.HandleFunc("/tag/", ManageTag)
 	http.HandleFunc("/", makeHandler(RenderUI, conf))
+
 	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	check(err)
 }

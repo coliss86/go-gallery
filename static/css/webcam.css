@@ -57,14 +57,26 @@
   vertical-align: bottom;
 }
 
-.expander {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 16px;
-    height: 16px;
-    padding: 4px;
-    background: white url(https://github.com/openxe/django-ace/diff_blob/1993c731626a44139b97d2d9fca8f4f4023f107a/django_ace/static/django_ace/img/expand.png?raw=true) center center no-repeat;
-    z-index: 99999;
-    cursor: pointer;
+.tag {
+  position: absolute;
+  right: 0px;
+}
+
+.tm-tag-remove {
+  text-decoration: none;
+  font-size: 150%;
+}
+
+.tm-tag-selected {
+  color: #4594b5 !important;
+  background-color: #c5eefa !important;
+  border-color: #5dc8f7 !important;
+}
+
+.tm-tag {
+  padding: 0px 4px 2px !important;
+}
+
+.tm-tag span {
+  cursor: default;
 }
