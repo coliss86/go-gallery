@@ -14,7 +14,7 @@
 	<body>
 		{{if .Breadcrum}}
 			<div class="breadcrum"><a href="/">Home</a>
-				{{range .Breadcrum}} >
+				{{range .Breadcrum}} &raquo;
 					{{if .Link}}
 					<a href="{{.Link}}">{{.Name}}</a>
 					{{else}}

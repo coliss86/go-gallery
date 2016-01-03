@@ -17,6 +17,7 @@ $(document).ready(function() {
         CapitalizeFirstLetter: true,
         deleteTagsOnBackspace: false,
         isClearInputOnEsc: false,
+        tagCloseIcon: "&cross;"
       });
       $(".tm-input").on('tm:pushed', function(e, tag) {
         $.post("/tag/add/" + tag, { img: img });
