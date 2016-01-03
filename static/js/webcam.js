@@ -16,7 +16,6 @@ $(document).ready(function() {
         prefilled: tags,
         CapitalizeFirstLetter: true,
         deleteTagsOnBackspace: false,
-        preventSubmitOnEnter: false,
         isClearInputOnEsc: false,
       });
       $(".tm-input").on('tm:pushed', function(e, tag) {
