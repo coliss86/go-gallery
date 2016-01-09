@@ -69,7 +69,6 @@ func tagDelete(img string, tag string) {
 }
 
 func tagList() (tags []string) {
-	log.Println("Listing tag")
 	files, err := ioutil.ReadDir(config.Export)
 	check(err)
 
