@@ -29,18 +29,18 @@ import (
 
 var urlImgRE = regexp.MustCompile("(.*)/([^/]*)/?")
 
-func RenderImg(w http.ResponseWriter, r *http.Request, conf Conf) {
+func RenderImg(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	img := r.URL.Path[5:]
-	serveFile(w, r, path.Join(conf.DataDir, img))
+	serveFile(w, r, path.Join(config.Images, img))
 }
 
-func RenderThumb(w http.ResponseWriter, r *http.Request, conf Conf) {
+func RenderThumb(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	thumb := r.URL.Path[7:]
 
-	ip := path.Join(conf.DataDir, thumb)
-	it := path.Join(conf.CacheDir, thumb)
+	ip := path.Join(config.Images, thumb)
+	it := path.Join(config.Cache, thumb)
 	// Return a 404 if the template doesn't exist
 	infoip, err := os.Stat(ip)
 	if err != nil && os.IsNotExist(err) || infoip.IsDir() {
@@ -59,7 +59,7 @@ func RenderThumb(w http.ResponseWriter, r *http.Request, conf Conf) {
 	serveFile(w, r, it)
 }
 
-func RenderDownload(w http.ResponseWriter, r *http.Request, conf Conf) {
+func RenderDownload(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	img := r.URL.Path[10:]
 	matches := urlImgRE.FindStringSubmatch(img)
@@ -70,7 +70,7 @@ func RenderDownload(w http.ResponseWriter, r *http.Request, conf Conf) {
 		title = img
 	}
 	w.Header().Set("Content-Disposition", "attachment; filename="+title)
-	serveFile(w, r, path.Join(conf.DataDir, img))
+	serveFile(w, r, path.Join(config.Images, img))
 }
 
 func serveFile(w http.ResponseWriter, r *http.Request, file string) {

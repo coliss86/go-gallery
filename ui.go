@@ -55,10 +55,10 @@ var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
-func RenderUI(w http.ResponseWriter, r *http.Request, conf Conf) {
+func RenderUI(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	folderS := r.URL.Path[1:]
-	folder := path.Join(conf.DataDir, folderS)
+	folder := path.Join(config.Images, folderS)
 	log.Println("Listing pictures in '", folder, "'")
 
 	// Return a 404 if the template doesn't exist

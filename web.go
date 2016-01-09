@@ -23,57 +23,55 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"strconv"
-	"strings"
+
+	"github.com/BurntSushi/toml"
 )
 
 const PORT = 9090
 
-type Conf struct {
-	DataDir   string
-	CacheDir  string
-	ExportDir string
+type Config struct {
+	Images string
+	Cache  string
+	Export string
+	Port   int
 }
 
-var conf Conf
+var config Config
 
 func main() {
-	if len(os.Args) < 3 {
-		fmt.Fprintln(os.Stderr, "Error : missing argument\n\nUsage : webcam <dataDir> <cachedir> [port]")
+
+	if len(os.Args) != 2 {
+		fmt.Fprintln(os.Stderr, "Error : missing argument\n\nUsage : ", os.Args[0], " <config file>")
 		os.Exit(1)
 	}
 
-	var err error
-	conf = Conf{strings.Trim(os.Args[1], " "), strings.Trim(os.Args[2], " "), strings.Trim(os.Args[1], " ") + "/export/"}
-	port := PORT
-
-	if len(os.Args) == 4 {
-		port, err = strconv.Atoi(os.Args[3])
-		if err != nil {
-			fmt.Fprintln(os.Stderr, "Error : invalid port number")
-			os.Exit(1)
-		}
+	var config Config
+	if _, err := toml.DecodeFile(os.Args[1], &config); err != nil {
+		check(err)
 	}
 
-	dirExport := path.Dir(conf.ExportDir)
+	var err error
+	if config.Export == "" {
+		config.Export = config.Images + "/export/"
+	}
+	if config.Port == 0 {
+		config.Port = PORT
+	}
+
+	dirExport := path.Dir(config.Export)
 	os.MkdirAll(dirExport, os.ModePerm)
 
-	log.Println("Listening on", port)
+	log.Println("Listening on", config.Port)
+
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
-	http.HandleFunc("/img/", makeHandler(RenderImg, conf))
-	http.HandleFunc("/download/", makeHandler(RenderDownload, conf))
-	http.HandleFunc("/thumb/", makeHandler(RenderThumb, conf))
+	http.HandleFunc("/img/", RenderImg)
+	http.HandleFunc("/download/", RenderDownload)
+	http.HandleFunc("/thumb/", RenderThumb)
 	http.HandleFunc("/tag/", ManageTag)
-	http.HandleFunc("/", makeHandler(RenderUI, conf))
+	http.HandleFunc("/", RenderUI)
 
-	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", config.Port), nil)
 	check(err)
-}
-
-func makeHandler(fn func(http.ResponseWriter, *http.Request, Conf), conf Conf) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		fn(w, r, conf)
-	}
 }
 
 func check(err error) {
