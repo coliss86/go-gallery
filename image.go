@@ -25,19 +25,22 @@ import (
 	"os/exec"
 	"path"
 	"regexp"
+
+	"github.com/gorilla/mux"
 )
 
 var urlImgRE = regexp.MustCompile("(.*)/([^/]*)/?")
 
 func RenderImg(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	img := r.URL.Path[5:]
-	serveFile(w, r, path.Join(config.Images, img))
+	vars := mux.Vars(r)
+	serveFile(w, r, path.Join(config.Images, vars["img"]))
 }
 
 func RenderThumb(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	thumb := r.URL.Path[7:]
+	vars := mux.Vars(r)
+	thumb := vars["img"]
 
 	ip := path.Join(config.Images, thumb)
 	it := path.Join(config.Cache, thumb)
@@ -61,7 +64,8 @@ func RenderThumb(w http.ResponseWriter, r *http.Request) {
 
 func RenderDownload(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	img := r.URL.Path[10:]
+	vars := mux.Vars(r)
+	img := vars["img"]
 	matches := urlImgRE.FindStringSubmatch(img)
 	title := ""
 	if len(matches) > 0 {

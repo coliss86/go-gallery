@@ -26,6 +26,7 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
+	"github.com/gorilla/mux"
 )
 
 const PORT = 9090
@@ -76,12 +77,20 @@ func main() {
 
 	log.Println("Listening on", config.Port)
 
+	r := mux.NewRouter()
+	r.HandleFunc("/ui", RenderUI)
+	r.HandleFunc("/ui/{folder:.*}", RenderUI)
+	r.HandleFunc("/tag/{action}/{tag}", ManageTag)
+	r.HandleFunc("/thumb/{img:.*}", RenderThumb)
+	r.HandleFunc("/download/{img:.*}", RenderDownload)
+	r.HandleFunc("/img/{img:.*}", RenderImg)
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		//redirecting to /ui/ when / is called
+		http.Redirect(w, r, "/ui/", http.StatusMovedPermanently)
+	})
+	http.Handle("/", r)
+
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
-	http.HandleFunc("/img/", RenderImg)
-	http.HandleFunc("/download/", RenderDownload)
-	http.HandleFunc("/thumb/", RenderThumb)
-	http.HandleFunc("/tag/", ManageTag)
-	http.HandleFunc("/", RenderUI)
 
 	err = http.ListenAndServe(fmt.Sprintf(":%d", config.Port), nil)
 	check(err)

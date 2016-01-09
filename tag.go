@@ -23,23 +23,25 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 func ManageTag(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	action := r.URL.Path[5:]
+	vars := mux.Vars(r)
+	action := vars["action"]
+	tag := vars["tag"]
 	img := r.FormValue("img")
-	actions := strings.Split(action, "/")
 	switch {
-	case actions[0] == "select":
-		tagSelect(img, actions[1])
-	case actions[0] == "deselect":
-		tagDeselect(img, actions[1])
-	case actions[0] == "add":
-		tagAdd(img, actions[1])
-	case actions[0] == "delete":
-		tagDelete(img, actions[1])
+	case action == "select":
+		tagSelect(img, tag)
+	case action == "deselect":
+		tagDeselect(img, tag)
+	case action == "add":
+		tagAdd(img, tag)
+	case action == "delete":
+		tagDelete(img, tag)
 	}
 }
 

@@ -27,6 +27,8 @@ import (
 	"sort"
 	"strings"
 	"text/template"
+
+	"github.com/gorilla/mux"
 )
 
 type Item struct {
@@ -57,7 +59,8 @@ var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
 
 func RenderUI(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	folderS := r.URL.Path[1:]
+	vars := mux.Vars(r)
+	folderS := vars["folder"]
 	folder := path.Join(config.Images, folderS)
 	log.Println("Listing pictures in '", folder, "'")
 
