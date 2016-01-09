@@ -3,8 +3,11 @@ Go gallery
 
 Go gallery is a simple web gallery written in [golang](https://golang.org) to browse pictures hierarchy stored in a folder. It allows browsing them with a nice and elegant way. It recognized month in folder name and sort them according.
 
-<img src="/doc/folders.png?raw=true" alt="Folder listing" width="30%">
-<img src="/doc/photo.png?raw=true" alt="Photo listing" width="30%">
+<img src="/doc/folders1.png?raw=true" alt="Folder listing" width="50%">
+<img src="/doc/folders2.png?raw=true" alt="Folder listing" width="50%">
+<br>
+
+<img src="/doc/pictures.png?raw=true" alt="Photo listing" width="30%">
 <img src="/doc/fancybox.png?raw=true" alt="Fancybox" width="30%">
 
 Prerequisites
