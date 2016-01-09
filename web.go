@@ -23,6 +23,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 )
@@ -45,7 +46,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	var config Config
 	if _, err := toml.DecodeFile(os.Args[1], &config); err != nil {
 		check(err)
 	}
@@ -57,6 +57,19 @@ func main() {
 	if config.Port == 0 {
 		config.Port = PORT
 	}
+
+	if !strings.HasSuffix(config.Images, "/") {
+		config.Images += "/"
+	}
+	if !strings.HasSuffix(config.Export, "/") {
+		config.Export += "/"
+	}
+	if !strings.HasSuffix(config.Cache, "/") {
+		config.Cache += "/"
+	}
+
+	log.Println("Images directory", config.Images)
+	log.Println("Export directory", config.Export)
 
 	dirExport := path.Dir(config.Export)
 	os.MkdirAll(dirExport, os.ModePerm)
