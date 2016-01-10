@@ -67,7 +67,9 @@ func tagAdd(img string, tag string) {
 }
 
 func tagDelete(img string, tag string) {
-	log.Println("Delete folder", tag, " NON IMPLEMENTED !!")
+	log.Println("Delete folder", tag)
+	err := os.RemoveAll(path.Join(config.Export, tag))
+	check(err)
 }
 
 func tagList() (tags []string) {

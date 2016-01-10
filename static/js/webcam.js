@@ -21,9 +21,11 @@ $(document).ready(function() {
       });
       $(".tm-input").on('tm:pushed', function(e, tag) {
         $.post("/tag/add/" + tag, { img: img });
+        tags.push(tag);
       });
       $(".tm-input").on('tm:spliced', function(e, tag) {
         $.post("/tag/delete/" + tag, { img: img });
+        tags.splice(tags.indexOf(tag),1);
       });
       $(".tm-input").on('tm:selected', function(e, tag) {
         $.post("/tag/select/" + tag, { img: img });

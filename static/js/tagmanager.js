@@ -178,12 +178,12 @@
         $el.find("#" + newTagRemoveId).on("click", $self, function (e) {
           e.preventDefault();
           var tagIdToRemove = parseInt($(this).attr("TagIdToRemove"));
-          privateMethods.spliceTag.call($self, tagIdToRemove, e.data);
+          privateMethods.spliceTagConfirm.call($self, tagIdToRemove, e);
         });
 
         $el.on("click", $self, function (e) {
           e.preventDefault();
-          privateMethods.selectTag.call($self, $(this).attr("id"), e.data);
+          privateMethods.selectTag.call($self, $(this).attr("id"));
         });
 
         privateMethods.refreshHiddenTagList.call($self);
@@ -350,6 +350,21 @@
           $("#" + tagId).removeClass("tm-tag-selected");
           $self.trigger('tm:deselected', [tag, tagId]);
         }
+      }
+    },
+
+    spliceTagConfirm: function(tagId, e) {
+      var $self = this, tlis = $self.data("tlis"), tlid = $self.data("tlid"), idx = $.inArray(tagId, tlid),
+      tagBeingRemoved;
+      privateMethods.killEvent(e);
+      if (-1 !== idx) {
+        tagBeingRemoved = tlis[idx];
+      } else {
+        tagBeingRemoved = ""
+      }
+      var r = confirm("Etes vous sûr de vouloir supprimer le dossier " + tagBeingRemoved + " et tout son contenu ?");
+      if (r == true) {
+          privateMethods.spliceTag.call($self, tagId);
       }
     },
 
