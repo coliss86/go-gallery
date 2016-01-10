@@ -42,6 +42,7 @@ type Data struct {
 	Title      string
 	Breadcrum  []Item
 	Pictures   []string
+	Videos     []string
 	Values     map[string][]Item
 	Months     []string
 	MonthsName map[string]string
@@ -54,6 +55,7 @@ var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mar
 var folderRE = regexp.MustCompile("([0-9]+)-([0-9]+).*")
 var ignoreRE = regexp.MustCompile(`.git|.svn|.DS_Store|Thumbs.db|meta.properties`)
 var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
+var videoRE = regexp.MustCompile(".*(mp4|m4v|mpeg|mpg)")
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
@@ -117,6 +119,8 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	for _, file := range files {
 		if file.IsDir() {
 			manageFolder(folder, file, data)
+		} else if videoRE.MatchString(file.Name()) {
+			data.Videos = append(data.Videos, file.Name())
 		} else if !ignoreRE.MatchString(file.Name()) {
 			data.Pictures = append(data.Pictures, file.Name())
 		}

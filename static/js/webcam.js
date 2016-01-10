@@ -34,6 +34,17 @@ $(document).ready(function() {
         $.post("/tag/deselect/" + tag, { img: img });
       });
     },
+    beforeLoad : function () {
+      if (this.element.data("video")) {
+        _videoHref   = this.href;
+        _videoPoster = typeof this.element.data("poster")  !== "undefined" ? this.element.data("poster")  :  "";
+        _videoWidth  = typeof this.element.data("width")   !== "undefined" ? this.element.data("width")   : 360;
+        _videoHeight = typeof this.element.data("height")  !== "undefined" ? this.element.data("height")  : 360;
+        _dataCaption = typeof this.element.data("caption") !== "undefined" ? this.element.data("caption") :  "";
+        this.title = _dataCaption ? _dataCaption : (this.title ? this.title : "");
+        this.content = "<video id='video_player' src='" + _videoHref + "'  poster='" + _videoPoster + "' width='" + _videoWidth + "' height='" + _videoHeight + "' controls='controls' preload='none' autoplay='true'></video>";
+      }
+    },
     loop: false,
     nextEffect: 'none',
     prevEffect: 'none',
