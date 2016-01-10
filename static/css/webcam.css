@@ -95,6 +95,27 @@
   vertical-align: bottom;
 }
 
+.fancybox-nav {
+  width: 60px;
+}
+
+.fancybox-nav span {
+  visibility: visible;
+  opacity: 0.5;
+}
+
+.fancybox-nav:hover span {
+  opacity: 1;
+}
+
+.fancybox-next {
+  right: -90px;
+}
+
+.fancybox-prev {
+  left: -90px;
+}
+
 .tag {
   position: absolute;
   right: 0px;
