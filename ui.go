@@ -98,7 +98,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 				item := Item{}
 				item.Name = split
 				if i == 0 {
-					item.Link = "/" + split
+					item.Link = split
 				} else {
 					item.Link = breadcrum[i-1].Link + "/" + split
 				}
