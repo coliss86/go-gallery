@@ -148,7 +148,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	data.Tags = tag
 
 	// final generation
-	var templates = template.Must(template.ParseFiles("template/img.tmpl"))
+	var templates = template.Must(template.ParseFiles("template/gallery.tmpl"))
 	err = templates.Execute(w, data)
 	check(err)
 }
