@@ -13,7 +13,7 @@ $(document).ready(function() {
       var img = this.href.replace("/img/", "");
 
       $(".tm-input").tagsManager({
-        prefilled: tags,
+        prefilled: folders,
         CapitalizeFirstLetter: true,
         deleteTagsOnBackspace: false,
         isClearInputOnEsc: false,
@@ -21,11 +21,11 @@ $(document).ready(function() {
       });
       $(".tm-input").on('tm:pushed', function(e, tag) {
         $.post("/tag/add/" + tag, { img: img });
-        tags.push(tag);
+        folders.push(tag);
       });
       $(".tm-input").on('tm:spliced', function(e, tag) {
         $.post("/tag/delete/" + tag, { img: img });
-        tags.splice(tags.indexOf(tag),1);
+        folders.splice(folders.indexOf(tag),1);
       });
       $(".tm-input").on('tm:selected', function(e, tag) {
         $.post("/tag/select/" + tag, { img: img });
