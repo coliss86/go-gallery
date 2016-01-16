@@ -7,7 +7,7 @@ $(document).ready(function() {
         }
     },
     afterLoad: function() {
-        this.title = '<a href="' + this.href.replace("/img/", "/download/") + '"><img src="/static/img/arrow_down_32.png" ></a> ' + this.title + '<span class="tag"><input type="text" name="tags" placeholder="Ajouter un dossier" class="tm-input tm-input-small"/></span>';
+        this.title = '<a href="' + this.href.replace("/img/", "/download/") + '"><img src="/static/img/arrow_down_32.png" ></a><span title="' + this.title + '"> ' + this.title + '</span><span class="tag"><input type="text" name="tags" placeholder="Dossier" class="tm-input tm-input-small"/></span>';
     },
     afterShow: function() {
       var img = this.href.replace("/img/", "");
