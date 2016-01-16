@@ -11,26 +11,42 @@ $(document).ready(function() {
     },
     afterShow: function() {
       var img = this.href.replace("/img/", "");
+      var folders = [];
+      for (var tag in tags) {
+         folders.push(tag);
+      }
 
-      $(".tm-input").tagsManager({
+      var tab = $(".tm-input").tagsManager({
         prefilled: folders,
         CapitalizeFirstLetter: true,
         deleteTagsOnBackspace: false,
         isClearInputOnEsc: false,
         tagCloseIcon: "&cross;"
       });
-      $(".tm-input").on('tm:pushed', function(e, tag) {
+
+      var iof = img.lastIndexOf("/");
+      var imgName = img;
+      if (iof != -1) {
+        imgName = img.substring(iof + 1);
+      }
+      for (var tag in tags) {
+        var idx = $.inArray(imgName, tags[tag]);
+        if (idx != -1) {
+          tab.tagsManager('selectTag', tag);
+        }
+      }
+      tab.on('tm:pushed', function(e, tag) {
         $.post("/tag/add/" + tag, { img: img });
         folders.push(tag);
       });
-      $(".tm-input").on('tm:spliced', function(e, tag) {
+      tab.on('tm:spliced', function(e, tag) {
         $.post("/tag/delete/" + tag, { img: img });
         folders.splice(folders.indexOf(tag),1);
       });
-      $(".tm-input").on('tm:selected', function(e, tag) {
+      tab.on('tm:selected', function(e, tag) {
         $.post("/tag/select/" + tag, { img: img });
       });
-      $(".tm-input").on('tm:deselected', function(e, tag) {
+      tab.on('tm:deselected', function(e, tag) {
         $.post("/tag/deselect/" + tag, { img: img });
       });
     },

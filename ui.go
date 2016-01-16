@@ -39,15 +39,16 @@ type Item struct {
 }
 
 type Data struct {
-	Title      string
-	Breadcrum  []Item
-	Pictures   []string
-	Videos     []string
-	Values     map[string][]Item
-	Months     []string
-	MonthsName map[string]string
-	Folder     string
-	Tags       string
+	Title        string
+	Breadcrum    []Item
+	Pictures     []string
+	Videos       []string
+	Values       map[string][]Item
+	Months       []string
+	MonthsName   map[string]string
+	Folder       string
+	Tags         string
+	TagsPictures map[string][]string
 }
 
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossiers"}
@@ -136,16 +137,11 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	sort.Strings(data.Months)
 
 	// tags
+	data.TagsPictures = make(map[string][]string)
 	tags := tagList()
-	tag := ""
-	for i, t := range tags {
-		if i == 0 {
-			tag += `"` + t + `"`
-		} else {
-			tag += `,"` + t + `"`
-		}
+	for _, t := range tags {
+		data.TagsPictures[t] = tagListPictures(t)
 	}
-	data.Tags = tag
 
 	// final generation
 	var templates = template.Must(template.ParseFiles("template/gallery.tmpl"))

@@ -232,14 +232,17 @@
       $self.trigger('tm:emptied', null);
 
       privateMethods.showOrHide.call($self);
-      //if (tagManagerOptions.maxTags > 0 && tlis.length < tagManagerOptions.maxTags) {
-      //  obj.show();
-      //}
     },
 
     tags: function () {
       var $self = this, tlis = $self.data("tlis");
       return tlis;
+    },
+
+    selectTag: function (tagId) {
+      var $self = this, tlis = $self.data("tlis");
+      var idx = $.inArray(tagId, tlis);
+      privateMethods.selectTag.call($self, $self.data("tm_rndid") + "_" + (idx + 1));
     }
   },
 

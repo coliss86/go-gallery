@@ -84,3 +84,16 @@ func tagList() (tags []string) {
 	}
 	return
 }
+
+func tagListPictures(tag string) (files []string) {
+	fs, err := ioutil.ReadDir(path.Join(config.Export, tag))
+	check(err)
+
+	files = make([]string, 0)
+	for _, file := range fs {
+		if !file.IsDir() {
+			files = append(files, file.Name())
+		}
+	}
+	return
+}

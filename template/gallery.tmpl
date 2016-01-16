@@ -50,8 +50,11 @@
 			</div>
 		{{end}}
 		<script type="text/javascript">
-		folders = [{{.Tags}}];
-
+		tags = {
+		{{ range $key, $value := .TagsPictures }}
+		   "{{ $key }}" : [{{ range $value }}"{{.}}", {{end}}],
+		{{ end }}
+		}
 		</script>
 	</body>
 </html>
