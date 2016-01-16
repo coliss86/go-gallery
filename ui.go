@@ -54,7 +54,7 @@ type Data struct {
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossiers"}
 
 var folderRE = regexp.MustCompile("([0-9]+)-([0-9]+).*")
-var pictureRE = regexp.MustCompile("(?i).*(jpeg|jpg|gif|png|bmp)")
+var pictureRE = regexp.MustCompile("(?i).*\\.(jpeg|jpg|gif|png|bmp)$")
 var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
 var videoRE = regexp.MustCompile("(?i).*(mp4|m4v|mpeg|mpg|avi)$")
 
