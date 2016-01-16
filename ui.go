@@ -54,9 +54,9 @@ type Data struct {
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossiers"}
 
 var folderRE = regexp.MustCompile("([0-9]+)-([0-9]+).*")
-var ignoreRE = regexp.MustCompile(`^\..*|.*\.xml|meta.properties`)
+var pictureRE = regexp.MustCompile("(?i).*(jpeg|jpg|gif|png|bmp)")
 var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
-var videoRE = regexp.MustCompile("(?i).*(mp4|m4v|mpeg|mpg|avi)")
+var videoRE = regexp.MustCompile("(?i).*(mp4|m4v|mpeg|mpg|avi)$")
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
@@ -122,7 +122,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 			manageFolder(folder, file, data)
 		} else if videoRE.MatchString(file.Name()) {
 			data.Videos = append(data.Videos, file.Name())
-		} else if !ignoreRE.MatchString(file.Name()) {
+		} else if pictureRE.MatchString(file.Name()) {
 			data.Pictures = append(data.Pictures, file.Name())
 		}
 	}
@@ -172,7 +172,7 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 	check(err)
 
 	for _, file := range files {
-		if !file.IsDir() && !ignoreRE.MatchString(file.Name()) && !videoRE.MatchString(file.Name()) {
+		if !file.IsDir() && pictureRE.MatchString(file.Name()) {
 			f.Image = file.Name()
 			f.Class += " folder-image"
 			break
