@@ -121,6 +121,10 @@
   right: 0px;
 }
 
+.tag input.tm-input[type="text"] {
+  width: 4em;
+}
+
 .tm-tag-remove {
   text-decoration: none;
   font-size: 150%;
