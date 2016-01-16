@@ -25,6 +25,8 @@ On a mac, the [installation](http://www.imagemagick.org/script/binary-releases.p
 sudo port install ImageMagick
 ```
 
+`go-gallery` requires `golang` in version 1.4.2 at least.
+
 Install
 ----------
 
