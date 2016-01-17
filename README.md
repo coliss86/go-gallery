@@ -40,13 +40,13 @@ To run it :
 ```
 $GOPATH/bin/go-gallery <config file>
 ```
-  * 'config file' : *mandatory* path to the config file in [toml](https://github.com/toml-lang/toml) format
+  * 'config file' : *mandatory* path to the config file
 
 Here is a example of this config file :
-```toml
-images = "/Users/user/Pictures"
-export = "/Users/user/export"
-cache = "/Users/user/temp/cache"
+```
+images=/Users/user/Pictures
+export=/Users/user/export
+cache=/Users/user/temp/cache
 #port=9090
 ```
 
