@@ -202,7 +202,6 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 
 func readMeta(folder string) map[string]string {
 	path := path.Join(folder, "meta.properties")
-	log.Println(path)
 	info, err := os.Stat(path)
 	if err != nil || info.IsDir() {
 		return nil
