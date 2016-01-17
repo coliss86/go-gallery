@@ -47,7 +47,6 @@ type Data struct {
 	Months       []string
 	MonthsName   map[string]string
 	Folder       string
-	Tags         string
 	TagsPictures map[string][]string
 	Total        int
 }
