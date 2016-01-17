@@ -23,10 +23,11 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strconv"
 	"strings"
 
-	"github.com/BurntSushi/toml"
 	"github.com/gorilla/mux"
+	"github.com/jimlawless/cfg"
 )
 
 const PORT = 9090
@@ -47,11 +48,18 @@ func main() {
 		os.Exit(1)
 	}
 
-	if _, err := toml.DecodeFile(os.Args[1], &config); err != nil {
+	meta := make(map[string]string)
+	err := cfg.Load(os.Args[1], meta)
+	check(err)
+	config.Export = meta["export"]
+	config.Cache = meta["cache"]
+	config.Images = meta["images"]
+	port, ok := meta["port"]
+	if ok {
+		config.Port, err = strconv.Atoi(port)
 		check(err)
 	}
 
-	var err error
 	if config.Export == "" {
 		config.Export = config.Images + "/export/"
 	}
