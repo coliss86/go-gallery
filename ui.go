@@ -34,7 +34,7 @@ import (
 type Item struct {
 	Link  string
 	Name  string
-	Image string
+	Thumb string
 	Class string
 }
 
@@ -43,12 +43,13 @@ type Data struct {
 	Breadcrum    []Item
 	Pictures     []string
 	Videos       []string
-	Values       map[string][]Item
+	Folders      map[string][]Item
 	Months       []string
 	MonthsName   map[string]string
 	Folder       string
 	Tags         string
 	TagsPictures map[string][]string
+	Total        int
 }
 
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossiers"}
@@ -116,7 +117,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	check(err)
 
 	// pictures
-	data.Values = make(map[string][]Item)
+	data.Folders = make(map[string][]Item)
 	for _, file := range files {
 		if file.IsDir() {
 			manageFolder(folder, file, data)
@@ -128,9 +129,9 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// months
-	data.Months = make([]string, len(data.Values))
+	data.Months = make([]string, len(data.Folders))
 	i := 0
-	for k, _ := range data.Values {
+	for k, _ := range data.Folders {
 		data.Months[i] = k
 		i++
 	}
@@ -142,6 +143,8 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	for _, t := range tags {
 		data.TagsPictures[t] = tagListPictures(t)
 	}
+
+	data.Total = len(data.Videos) + len(data.Pictures)
 
 	// final generation
 	var templates = template.Must(template.ParseFiles("template/gallery.tmpl"))
@@ -173,17 +176,17 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 
 	for _, file := range files {
 		if !file.IsDir() && pictureRE.MatchString(file.Name()) {
-			f.Image = file.Name()
-			f.Class += " folder-image"
+			f.Thumb = file.Name()
+			f.Class += " folder-thumb"
 			break
 		}
 	}
 
 	// month
-	v, ok := data.Values[month]
+	v, ok := data.Folders[month]
 	if !ok {
-		data.Values[month] = make([]Item, 5)
+		data.Folders[month] = make([]Item, 5)
 	}
-	data.Values[month] = append(v, f)
+	data.Folders[month] = append(v, f)
 
 }

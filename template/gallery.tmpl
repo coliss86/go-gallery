@@ -24,14 +24,14 @@
 				<a href=""><img src="/static/img/arrow_rotate_clockwise.png"></a>
 			</div>
 		{{end}}
-		{{if .Values}}
+		{{if .Folders}}
 			{{range $month := .Months}}
 				<div class="month">{{index $.MonthsName $month}}</div>
 				<div class="flex-container folders">
-				{{ range $value := index $.Values $month }}
+				{{ range $value := index $.Folders $month }}
 					<div class="flex-folder {{ $value.Class }}"><a href="/ui/{{ $.Folder }}{{ $value.Link }}" title="{{ $value.Link }}">
-						{{if $value.Image }}
-							<img src="/thumb/{{ $.Folder }}{{ $value.Link }}/{{ $value.Image }}" alt="{{ $value.Link }}">
+						{{if $value.Thumb }}
+							<img src="/thumb/{{ $.Folder }}{{ $value.Link }}/{{ $value.Thumb }}" alt="{{ $value.Link }}">
 						{{else}}
 							<img src="/static/img/folder_blue.png">
 						{{end}}
@@ -41,7 +41,7 @@
 			{{end}}
 		{{end}}
 		{{if .Pictures}}
-			<div class="picture">Contenu du dossier '{{ .Title}}' <span>{{len .Pictures}} éléments</span></div>
+			<div class="picture">Contenu de l'album '{{ .Title}}' <span>{{.Total}} médias</span></div>
 			<div class="flex-container pictures">
 				{{range .Pictures}}<div class="flex-img"><a class="fancybox fancybox.image" rel="group" href="/img/{{ $.Folder }}{{ . }}" title="{{ . }}"><img src="/thumb/{{ $.Folder }}{{ . }}" alt="{{ . }}"/></a></div>
 				{{end}}
