@@ -75,7 +75,7 @@ $(document).ready(function() {
    }
   });
 
-  $( '.flex-folder' ).hover(
+  $( '.folder-short' ).hover(
       function() {
         $( this ).stop().fadeTo( 'fast', '1');
         $( this ).find('span.legend').fadeTo( 'fast', '1');
