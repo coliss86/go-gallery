@@ -1,3 +1,7 @@
+a:active, a:focus {
+    outline: none;
+}
+
 .breadcrum {
   padding-bottom: 1em;
 }
