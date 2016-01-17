@@ -74,4 +74,15 @@ $(document).ready(function() {
 	   }
    }
   });
+
+  $( '.flex-folder' ).hover(
+      function() {
+        $( this ).stop().fadeTo( 'fast', '1');
+        $( this ).find('span.legend').fadeTo( 'fast', '1');
+      },
+      function() {
+        $( this ).stop().fadeTo( 'fast', '0.8');
+        $( this ).find('span.legend').fadeTo( 'fast', '0');
+      }
+  );
 });

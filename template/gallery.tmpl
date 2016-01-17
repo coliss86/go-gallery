@@ -35,7 +35,10 @@
 						{{else}}
 							<img src="/static/img/folder_blue.png">
 						{{end}}
-						<p>{{ $value.Name }}</p></a></div>
+						<p>{{ $value.Name }}</p>
+						<span class="legend">{{ $value.Link }}</span>
+					</a>
+					</div>
 				{{ end }}
 				</div>
 			{{end}}
