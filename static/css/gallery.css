@@ -110,10 +110,6 @@
   vertical-align: bottom;
 }
 
-.fancybox-nav {
-  width: 60px;
-}
-
 .fancybox-nav span {
   visibility: visible;
   opacity: 0.5;
@@ -124,11 +120,11 @@
 }
 
 .fancybox-next {
-  right: -90px;
+  right: -35px;
 }
 
 .fancybox-prev {
-  left: -90px;
+  left: -35px;
 }
 
 .tag {
