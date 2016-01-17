@@ -29,13 +29,15 @@ import (
 	"text/template"
 
 	"github.com/gorilla/mux"
+	"github.com/jimlawless/cfg"
 )
 
 type Item struct {
-	Link  string
-	Name  string
-	Thumb string
-	Class string
+	Link     string
+	Name     string
+	LongName string
+	Thumb    string
+	Class    string
 }
 
 type Data struct {
@@ -53,7 +55,7 @@ type Data struct {
 
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossiers"}
 
-var folderRE = regexp.MustCompile("([0-9]+)-([0-9]+).*")
+var folderRE = regexp.MustCompile("^([0-9]+)-([0-9]+)_(.*)$")
 var pictureRE = regexp.MustCompile("(?i).*\\.(jpeg|jpg|gif|png|bmp)$")
 var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
 var videoRE = regexp.MustCompile("(?i).*(mp4|m4v|mpeg|mpg|avi)$")
@@ -160,8 +162,16 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 		f.Name = matches[2]
 		month = matches[1]
 		f.Class = "folder-short"
+		f.LongName = matches[3]
+
+		meta := readMeta(path.Join(folder, f.Link))
+		if meta != nil {
+			f.LongName = meta["title"]
+			f.LongName = strings.Replace(f.LongName, " ", "&nbsp;", -1)
+		}
 	} else {
 		f.Name = f.Link
+		f.LongName = f.Name
 		if len(f.Name) > 7 {
 			f.Class = "folder-long"
 		} else {
@@ -188,4 +198,17 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 	}
 	data.Folders[month] = append(v, f)
 
+}
+
+func readMeta(folder string) map[string]string {
+	path := path.Join(folder, "meta.properties")
+	log.Println(path)
+	info, err := os.Stat(path)
+	if err != nil || info.IsDir() {
+		return nil
+	}
+	meta := make(map[string]string)
+	err = cfg.Load(path, meta)
+	check(err)
+	return meta
 }
