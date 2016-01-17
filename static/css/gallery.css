@@ -12,6 +12,7 @@
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   padding-bottom: 10px;
+  overflow-x: hidden;
 }
 
 .flex-folder {
