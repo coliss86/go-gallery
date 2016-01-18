@@ -93,6 +93,7 @@ func serveFile(w http.ResponseWriter, r *http.Request, file string) {
 func imageMagickThumbnail(origName, newName string) {
 	// convert -define jpeg:size=200x200 original.jpeg  -thumbnail 100x100^ -gravity center -extent 100x100  thumbnail.jpeg
 	var args = []string{
+		"-auto-orient",
 		"-define", "jpeg:size=150x150",
 		"-thumbnail", "100x100^",
 		"-gravity", "center",
