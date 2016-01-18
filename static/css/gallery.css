@@ -101,6 +101,11 @@ a:active, a:focus {
   padding-left: 0.5em;
 }
 
+.nada {
+  font-size: 150%;
+  padding-left: 0.5em;
+}
+
 .picture span {
   font-size: 60%;
   color: #888;
