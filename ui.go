@@ -56,6 +56,7 @@ type Data struct {
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossiers"}
 
 var folderRE = regexp.MustCompile("^([0-9]+)-([0-9]+)_(.*)$")
+var folderExcludeRE = regexp.MustCompile("(?i)\\.Trash.*")
 var pictureRE = regexp.MustCompile("(?i).*\\.(jpeg|jpg|gif|png|bmp)$")
 var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
 var videoRE = regexp.MustCompile("(?i).*(mp4|m4v|mpeg|mpg|avi)$")
@@ -120,7 +121,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	// pictures
 	data.Folders = make(map[string][]Item)
 	for _, file := range files {
-		if file.IsDir() {
+		if file.IsDir() && !folderExcludeRE.MatchString(file.Name()) {
 			manageFolder(folder, file, data)
 		} else if videoRE.MatchString(file.Name()) {
 			data.Videos = append(data.Videos, file.Name())
