@@ -5,30 +5,46 @@ Go gallery is a simple web gallery written in [golang](https://golang.org) to br
 
 <img src="/docs/folders1.jpg?raw=true" alt="Root folder" width="49%">
 
-It sorts folder by day and month based on regular expression `^([0-9]+)-([0-9]+)`and displays them chronologically.
+It sorts folders by month and day based on theis name and by applying the regular expression `^([0-9]+)-([0-9]+)`. It then displays them chronologically.
 
 <img src="/docs/folders2.jpg?raw=true" alt="Folder listing" width="49%">
 
-It recognizes pictures and videos and sort them by name, videos at the end.
+It recognizes `jpeg|jpg|gif|png|bmp` pictures and `mp4|m4v|mpeg|mpg|avi` videos and sort them by name, pictures first.
 
 <img src="/docs/pictures.jpg?raw=true" alt="Photo listing" width="49%">
 <img src="/docs/pictures2.jpg?raw=true" alt="Photo + Video listing" width="49%">
 
-When clicking on a picture or video, a nice [fancybox](http://fancyapps.com/fancybox/) is displayed. Videos are also played in it.  
+When clicking on a picture or video, a nice [fancybox](http://fancyapps.com/fancybox/) is displayed. Videos are played in it with the help of the `<video>` introduced in HTML 5.
+Keybinding are enabled in the navigation : <kbd>&rarr;</kbd>, <kbd>&larr;</kbd>, <kbd>ESC</kbd>
 
 <img src="/docs/fancybox.jpg?raw=true" alt="Fancybox" width="49%">
+
+The folder hierarchy may be as follows :
+```shell
+├──2013
+├──2014
+├──2015
+└──2016
+    ├── 01-01_NewYear
+    │   ├── picture1.jpg
+    │   ├── picture2.jpg
+    │   ├── video1.mp4
+    │   └── ...
+    ├── 06-05_Beach
+    └── ...
+```
 
 Prerequisites
 ----------
 
-This gallery use [convert from ImageMagick](http://www.imagemagick.org/script/convert.php) in order to generate thumbnails.
+This gallery uses [convert from ImageMagick](http://www.imagemagick.org/script/convert.php) in order to generate thumbnails.
 
 On debian :
 ```console
 apt-get install imagemagick
 ```
 
-On a mac, the [installation](http://www.imagemagick.org/script/binary-releases.php#macosx) requires [port](https://www.macports.org/) to be installed and then :
+On a mac, the [installation](http://www.imagemagick.org/script/binary-releases.php#macosx) requires [port](https://www.macports.org/) to be available and then :
 ```console
 sudo port install ImageMagick
 ```
@@ -37,13 +53,12 @@ sudo port install ImageMagick
 
 Install
 ----------
-
+Select an empty folder and run :
 ```console
 export GOPATH=`pwd`
 go get github.com/gmembre/go-gallery
 ```
-
-The binary is located in `$GOPATH/bin`.
+It downloads the source from github and compiles it. The resulting binary is located in `$GOPATH/bin`.
 To run it :
 ```console
 $GOPATH/bin/go-gallery <config file>
