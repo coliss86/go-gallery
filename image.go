@@ -43,24 +43,24 @@ func RenderThumb(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	thumb := vars["img"]
 
-	ip := path.Join(conf.Config.Images, thumb)
-	it := path.Join(conf.Config.Cache, thumb)
+	ir := path.Join(conf.Config.Images, thumb)
+	ic := path.Join(conf.Config.Cache, thumb)
 	// Return a 404 if the template doesn't exist
-	infoip, err := os.Stat(ip)
-	if err != nil && os.IsNotExist(err) || infoip.IsDir() {
+	infoir, err := os.Stat(ir)
+	if err != nil && os.IsNotExist(err) || infoir.IsDir() {
 		http.NotFound(w, r)
 		return
 	}
 
-	dir := path.Dir(it)
+	dir := path.Dir(ic)
 	os.MkdirAll(dir, os.ModePerm)
 
-	infoit, err := os.Stat(it)
-	if err != nil && os.IsNotExist(err) || infoip.ModTime().After(infoit.ModTime()) {
-		imageMagickThumbnail(ip, it)
+	infoic, err := os.Stat(ic)
+	if err != nil && os.IsNotExist(err) || infoir.ModTime().After(infoic.ModTime()) {
+		imageMagickThumbnail(ir, ic)
 	}
 
-	serveFile(w, r, it)
+	serveFile(w, r, ic)
 }
 
 func RenderDownload(w http.ResponseWriter, r *http.Request) {
