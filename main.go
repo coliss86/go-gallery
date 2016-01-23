@@ -23,21 +23,7 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"strconv"
-	"strings"
-
-	"github.com/gorilla/mux"
-	"github.com/jimlawless/cfg"
 )
-
-const PORT = 9090
-
-type Config struct {
-	Images string
-	Cache  string
-	Export string
-	Port   int
-}
 
 var config Config
 
@@ -48,59 +34,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	meta := make(map[string]string)
-	err := cfg.Load(os.Args[1], meta)
-	check(err)
-	config.Export = meta["export"]
-	config.Cache = meta["cache"]
-	config.Images = meta["images"]
-	port, ok := meta["port"]
-	if ok {
-		config.Port, err = strconv.Atoi(port)
-		check(err)
-	}
-
-	if config.Export == "" {
-		config.Export = config.Images + "/export/"
-	}
-	if config.Port == 0 {
-		config.Port = PORT
-	}
-
-	if !strings.HasSuffix(config.Images, "/") {
-		config.Images += "/"
-	}
-	if !strings.HasSuffix(config.Export, "/") {
-		config.Export += "/"
-	}
-	if !strings.HasSuffix(config.Cache, "/") {
-		config.Cache += "/"
-	}
-
-	log.Println("Images directory", config.Images)
-	log.Println("Export directory", config.Export)
+	config := NewConfiguration()
 
 	dirExport := path.Dir(config.Export)
 	os.MkdirAll(dirExport, os.ModePerm)
 
 	log.Println("Listening on", config.Port)
 
-	r := mux.NewRouter()
-	r.HandleFunc("/ui", RenderUI)
-	r.HandleFunc("/ui/{folder:.*}", RenderUI)
-	r.HandleFunc("/tag/{action}/{tag}", ManageTag)
-	r.HandleFunc("/thumb/{img:.*}", RenderThumb)
-	r.HandleFunc("/download/{img:.*}", RenderDownload)
-	r.HandleFunc("/img/{img:.*}", RenderImg)
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		//redirecting to /ui/ when / is called
-		http.Redirect(w, r, "/ui/", http.StatusMovedPermanently)
-	})
-	http.Handle("/", r)
-
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
-
-	err = http.ListenAndServe(fmt.Sprintf(":%d", config.Port), nil)
+	NewRouter()
+	err := http.ListenAndServe(fmt.Sprintf(":%d", config.Port), nil)
 	check(err)
 }
 
