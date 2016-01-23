@@ -56,7 +56,7 @@ type Data struct {
 
 var monthsName = map[string]string{"01": "Janvier", "02": "Février", "03": "Mars", "04": "Avril", "05": "Mai", "06": "Juin", "07": "Juillet", "08": "Août", "09": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre", "": "Dossiers"}
 
-var folderRE = regexp.MustCompile("^([0-9]+)-([0-9]+)_(.*)$")
+var folderRE = regexp.MustCompile("^([0-9]+)-([0-9]+)(_(.*))?$")
 var folderExcludeRE = regexp.MustCompile("(?i)\\.Trash.*")
 var pictureRE = regexp.MustCompile("(?i).*\\.(jpeg|jpg|gif|png|bmp)$")
 var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
@@ -164,8 +164,14 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 		f.Name = matches[2]
 		month = matches[1]
 		f.Class = "folder-short"
-		f.LongName = matches[3]
-
+		if len(matches) == 5 {
+			f.LongName = matches[4]
+			if f.LongName == "" {
+				f.LongName = f.Link
+			}
+		} else {
+			f.LongName = f.Link
+		}
 		meta := readMeta(path.Join(folder, f.Link))
 		if meta != nil {
 			f.LongName = meta["title"]
