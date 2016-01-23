@@ -1,4 +1,8 @@
+var folders = [];
 $(document).ready(function() {
+  for (var tag in tags) {
+     folders.push(tag);
+  }
   $(".fancybox").fancybox({
     helpers: {
       title: {
@@ -11,11 +15,7 @@ $(document).ready(function() {
     },
     afterShow: function() {
       var img = this.href.replace("/img/", "");
-      var folders = [];
-      for (var tag in tags) {
-         folders.push(tag);
-      }
-
+      
       var tab = $(".tm-input").tagsManager({
         prefilled: folders,
         CapitalizeFirstLetter: true,
