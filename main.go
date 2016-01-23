@@ -27,8 +27,6 @@ import (
 	"github.com/gmembre/go-gallery/pkg/conf"
 )
 
-var config conf.Configuration
-
 func main() {
 
 	if len(os.Args) != 2 {
@@ -36,15 +34,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	config := conf.Read()
+	conf.Read()
 
-	dirExport := path.Dir(config.Export)
+	dirExport := path.Dir(conf.Config.Export)
 	os.MkdirAll(dirExport, os.ModePerm)
 
-	log.Println("Listening on", config.Port)
+	log.Println("Listening on", conf.Config.Port)
 
 	NewRouter()
-	err := http.ListenAndServe(fmt.Sprintf(":%d", config.Port), nil)
+	err := http.ListenAndServe(fmt.Sprintf(":%d", conf.Config.Port), nil)
 	check(err)
 }
 

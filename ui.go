@@ -28,6 +28,7 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/gmembre/go-gallery/pkg/conf"
 	"github.com/gorilla/mux"
 	"github.com/jimlawless/cfg"
 )
@@ -67,7 +68,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	vars := mux.Vars(r)
 	folderS := vars["folder"]
-	folder := path.Join(config.Images, folderS)
+	folder := path.Join(conf.Config.Images, folderS)
 	log.Println("Listing pictures in '", folder, "'")
 
 	// Return a 404 if the template doesn't exist

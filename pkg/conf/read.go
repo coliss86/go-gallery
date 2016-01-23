@@ -18,43 +18,43 @@ type Configuration struct {
 	Port   int
 }
 
+var Config Configuration
+
 func Read() Configuration {
 	meta := make(map[string]string)
 	err := cfg.Load(os.Args[1], meta)
 	check(err)
 
-	var configuration Configuration
-
-	configuration.Export = meta["export"]
-	configuration.Cache = meta["cache"]
-	configuration.Images = meta["images"]
+	Config.Export = meta["export"]
+	Config.Cache = meta["cache"]
+	Config.Images = meta["images"]
 	port, ok := meta["port"]
 	if ok {
-		configuration.Port, err = strconv.Atoi(port)
+		Config.Port, err = strconv.Atoi(port)
 		check(err)
 	}
 
-	if configuration.Export == "" {
-		configuration.Export = configuration.Images + "/export/"
+	if Config.Export == "" {
+		Config.Export = Config.Images + "/export/"
 	}
-	if configuration.Port == 0 {
-		configuration.Port = DEFAULT_PORT
-	}
-
-	if !strings.HasSuffix(configuration.Images, "/") {
-		configuration.Images += "/"
-	}
-	if !strings.HasSuffix(configuration.Export, "/") {
-		configuration.Export += "/"
-	}
-	if !strings.HasSuffix(configuration.Cache, "/") {
-		configuration.Cache += "/"
+	if Config.Port == 0 {
+		Config.Port = DEFAULT_PORT
 	}
 
-	log.Println("Images directory", configuration.Images)
-	log.Println("Export directory", configuration.Export)
+	if !strings.HasSuffix(Config.Images, "/") {
+		Config.Images += "/"
+	}
+	if !strings.HasSuffix(Config.Export, "/") {
+		Config.Export += "/"
+	}
+	if !strings.HasSuffix(Config.Cache, "/") {
+		Config.Cache += "/"
+	}
 
-	return configuration
+	log.Println("Images directory", Config.Images)
+	log.Println("Export directory", Config.Export)
+
+	return Config
 }
 
 func check(err error) {
