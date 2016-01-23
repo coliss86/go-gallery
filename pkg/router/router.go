@@ -15,23 +15,24 @@ You should have received a copy of the GNU General Public License
 along with GO gallery.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package main
+package router
 
 import (
 	"net/http"
 
+	"github.com/gmembre/go-gallery/pkg/handler"
 	"github.com/gorilla/mux"
 )
 
 func NewRouter() *mux.Router {
 
 	router := mux.NewRouter()
-	router.HandleFunc("/ui", RenderUI)
-	router.HandleFunc("/ui/{folder:.*}", RenderUI)
-	router.HandleFunc("/tag/{action}/{tag}", ManageTag)
-	router.HandleFunc("/thumb/{img:.*}", RenderThumb)
-	router.HandleFunc("/download/{img:.*}", RenderDownload)
-	router.HandleFunc("/img/{img:.*}", RenderImg)
+	router.HandleFunc("/ui", handler.RenderUI)
+	router.HandleFunc("/ui/{folder:.*}", handler.RenderUI)
+	router.HandleFunc("/tag/{action}/{tag}", handler.ManageTag)
+	router.HandleFunc("/thumb/{img:.*}", handler.RenderThumb)
+	router.HandleFunc("/download/{img:.*}", handler.RenderDownload)
+	router.HandleFunc("/img/{img:.*}", handler.RenderImg)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		//redirecting to /ui/ when / is called
 		http.Redirect(w, r, "/ui/", http.StatusMovedPermanently)

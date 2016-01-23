@@ -25,6 +25,7 @@ import (
 	"path"
 
 	"github.com/gmembre/go-gallery/pkg/conf"
+	"github.com/gmembre/go-gallery/pkg/router"
 )
 
 func main() {
@@ -41,7 +42,7 @@ func main() {
 
 	log.Println("Listening on", conf.Config.Port)
 
-	NewRouter()
+	router.NewRouter()
 	err := http.ListenAndServe(fmt.Sprintf(":%d", conf.Config.Port), nil)
 	check(err)
 }
