@@ -23,9 +23,11 @@ import (
 	"net/http"
 	"os"
 	"path"
+
+	"github.com/gmembre/go-gallery/pkg/conf"
 )
 
-var config Config
+var config conf.Configuration
 
 func main() {
 
@@ -34,7 +36,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	config := NewConfiguration()
+	config := conf.Read()
 
 	dirExport := path.Dir(config.Export)
 	os.MkdirAll(dirExport, os.ModePerm)
