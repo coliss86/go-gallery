@@ -25,6 +25,7 @@ import (
 	"path"
 
 	"github.com/gmembre/go-gallery/pkg/conf"
+	"github.com/gmembre/go-gallery/pkg/file"
 	"github.com/gorilla/mux"
 )
 
@@ -50,7 +51,7 @@ func tagSelect(img string, tag string) {
 	log.Println("Copy", img, "to", tag)
 	src := path.Join(conf.Config.Images, img)
 	dest := path.Join(conf.Config.Export, tag, path.Base(img))
-	err := CopyFile(src, dest)
+	err := file.CopyFile(src, dest)
 	if err != nil {
 		log.Println("Copy error", src, "to", dest, ":", err)
 	}
