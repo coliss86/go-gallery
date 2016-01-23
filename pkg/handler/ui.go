@@ -215,7 +215,6 @@ func readMeta(folder string) map[string]string {
 		return nil
 	}
 	meta := make(map[string]string)
-	err = cfg.Load(path, meta)
-	check(err)
+	cfg.Load(path, meta)
 	return meta
 }
