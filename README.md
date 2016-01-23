@@ -1,14 +1,22 @@
 Go gallery
 ========
 
-Go gallery is a simple web gallery written in [golang](https://golang.org) to browse pictures hierarchy stored in a folder. It allows browsing them with a nice and elegant way. It recognized month in folder name and sort them according.
+Go gallery is a simple web gallery written in [golang](https://golang.org) to browse a folder  hierarchy containing pictures. It displays them in a nice and elegant way.
 
-<img src="/docs/folders1.png?raw=true" alt="Folder listing" width="49%">
-<img src="/docs/folders2.png?raw=true" alt="Folder listing" width="49%">
-<br>
+<img src="/docs/folders1.jpg?raw=true" alt="Root folder" width="49%">
 
-<img src="/docs/pictures.png?raw=true" alt="Photo listing" width="49%">
-<img src="/docs/fancybox.png?raw=true" alt="Fancybox" width="49%">
+It sorts folder by day and month based on regular expression `^([0-9]+)-([0-9]+)`and displays them chronologically.
+
+<img src="/docs/folders2.jpg?raw=true" alt="Folder listing" width="49%">
+
+It recognizes pictures and videos and sort them by name, videos at the end.
+
+<img src="/docs/pictures.jpg?raw=true" alt="Photo listing" width="49%">
+<img src="/docs/pictures2.jpg?raw=true" alt="Photo + Video listing" width="49%">
+
+When clicking on a picture or video, a nice [fancybox](http://fancyapps.com/fancybox/) is displayed. Videos are also played in it.  
+
+<img src="/docs/fancybox.jpg?raw=true" alt="Fancybox" width="49%">
 
 Prerequisites
 ----------
