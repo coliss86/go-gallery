@@ -16,12 +16,12 @@ Prerequisites
 This gallery use [convert from ImageMagick](http://www.imagemagick.org/script/convert.php) in order to generate thumbnails.
 
 On debian :
-```
+```console
 apt-get install imagemagick
 ```
 
 On a mac, the [installation](http://www.imagemagick.org/script/binary-releases.php#macosx) requires [port](https://www.macports.org/) to be installed and then :
-```
+```console
 sudo port install ImageMagick
 ```
 
@@ -31,13 +31,13 @@ Install
 ----------
 
 ```console
-$ export GOPATH=`pwd`
-$ go get github.com/gmembre/go-gallery
+export GOPATH=`pwd`
+go get github.com/gmembre/go-gallery
 ```
 
 The binary is located in `$GOPATH/bin`.
 To run it :
-```
+```console
 $GOPATH/bin/go-gallery <config file>
 ```
   * 'config file' : *mandatory* path to the config file
@@ -47,7 +47,7 @@ Here is a example of this config file :
 images=/Users/user/Pictures
 export=/Users/user/export
 cache=/Users/user/temp/cache
-#port=9090
+port=9090
 ```
 
 Reporting Issues
