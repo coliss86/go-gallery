@@ -18,15 +18,13 @@ along with GO gallery.  If not, see <http://www.gnu.org/licenses/>.
 package main
 
 import (
-	"bytes"
-	"log"
 	"net/http"
 	"os"
-	"os/exec"
 	"path"
 	"regexp"
 
 	"github.com/gmembre/go-gallery/pkg/conf"
+	"github.com/gmembre/go-gallery/pkg/img"
 	"github.com/gorilla/mux"
 )
 
@@ -57,7 +55,7 @@ func RenderThumb(w http.ResponseWriter, r *http.Request) {
 
 	infoic, err := os.Stat(ic)
 	if err != nil && os.IsNotExist(err) || infoir.ModTime().After(infoic.ModTime()) {
-		imageMagickThumbnail(ir, ic)
+		img.ConvertThumbnail(ir, ic)
 	}
 
 	serveFile(w, r, ic)
@@ -89,27 +87,4 @@ func serveFile(w http.ResponseWriter, r *http.Request, file string) {
 	fileOs, err := os.Open(file)
 	defer fileOs.Close()
 	http.ServeContent(w, r, info.Name(), info.ModTime(), fileOs)
-}
-
-func imageMagickThumbnail(origName, newName string) {
-	// convert -define jpeg:size=200x200 original.jpeg  -thumbnail 100x100^ -gravity center -extent 100x100  thumbnail.jpeg
-	var args = []string{
-		"-auto-orient",
-		"-define", "jpeg:size=150x150",
-		"-thumbnail", "100x100^",
-		"-gravity", "center",
-		"-extent", "100x100",
-		origName, newName,
-	}
-
-	var cmd *exec.Cmd
-	path, _ := exec.LookPath("convert")
-	cmd = exec.Command(path, args...)
-	var stdout, stderr bytes.Buffer
-	cmd.Stdout = &stdout
-	cmd.Stderr = &stderr
-	err := cmd.Run()
-	if err != nil {
-		log.Println("Erreur de génération : ", err, ". stdout :", stdout.String(), ". stderr :", stderr.String())
-	}
 }
