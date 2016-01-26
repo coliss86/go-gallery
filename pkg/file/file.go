@@ -20,6 +20,8 @@ package file
 import (
 	"io"
 	"os"
+	"path"
+	"strings"
 	"time"
 )
 
@@ -55,4 +57,12 @@ func CopyFile(source string, dest string) (err error) {
 	}
 	err = os.Chtimes(dest, time.Now(), si.ModTime())
 	return
+}
+
+func PathJoin(ps ...interface{}) string {
+	pps := make([]string, len(ps))
+	for i, p := range ps {
+		pps[i] = strings.Replace(p.(string), "..", ".", -1)
+	}
+	return path.Join(pps...)
 }
