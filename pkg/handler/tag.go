@@ -53,7 +53,7 @@ func tagSelect(img string, tag string) {
 	dest := path.Join(conf.Config.Export, tag, path.Base(img))
 	err := file.CopyFile(src, dest)
 	if err != nil {
-		log.Println("Copy error", src, "to", dest, ":", err)
+		check(err, "Can't copy ", src, "to", dest, ":")
 	}
 }
 
@@ -71,12 +71,12 @@ func tagAdd(img string, tag string) {
 func tagDelete(img string, tag string) {
 	log.Println("Delete folder", tag)
 	err := os.RemoveAll(path.Join(conf.Config.Export, tag))
-	check(err)
+	check(err, "Can't remove : ", path.Join(conf.Config.Export, tag), err)
 }
 
 func tagList() (tags []string) {
 	files, err := ioutil.ReadDir(conf.Config.Export)
-	check(err)
+	check(err, "Tag listing of folder", conf.Config.Export)
 
 	tags = make([]string, 0)
 	for _, file := range files {
@@ -100,8 +100,8 @@ func tagListPictures(tag string) (files []string) {
 	return
 }
 
-func check(err error) {
+func check(err error, v ...interface{}) {
 	if err != nil {
-		log.Fatal(err)
+		log.Println(v, err)
 	}
 }
