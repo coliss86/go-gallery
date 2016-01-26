@@ -24,6 +24,7 @@ import (
 	"regexp"
 
 	"github.com/gmembre/go-gallery/pkg/conf"
+	"github.com/gmembre/go-gallery/pkg/file"
 	"github.com/gmembre/go-gallery/pkg/img"
 	"github.com/gorilla/mux"
 )
@@ -33,7 +34,7 @@ var urlImgRE = regexp.MustCompile("(.*)/([^/]*)/?")
 func RenderImg(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	vars := mux.Vars(r)
-	serveFile(w, r, path.Join(conf.Config.Images, vars["img"]))
+	serveFile(w, r, file.PathJoin(conf.Config.Images, vars["img"]))
 }
 
 func RenderThumb(w http.ResponseWriter, r *http.Request) {
@@ -41,8 +42,8 @@ func RenderThumb(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	thumb := vars["img"]
 
-	ir := path.Join(conf.Config.Images, thumb)
-	ic := path.Join(conf.Config.Cache, thumb)
+	ir := file.PathJoin(conf.Config.Images, thumb)
+	ic := file.PathJoin(conf.Config.Cache, thumb)
 	// Return a 404 if the template doesn't exist
 	infoir, err := os.Stat(ir)
 	if err != nil && os.IsNotExist(err) || infoir.IsDir() {
@@ -73,7 +74,7 @@ func RenderDownload(w http.ResponseWriter, r *http.Request) {
 		title = img
 	}
 	w.Header().Set("Content-Disposition", "attachment; filename="+title)
-	serveFile(w, r, path.Join(conf.Config.Images, img))
+	serveFile(w, r, file.PathJoin(conf.Config.Images, img))
 }
 
 func serveFile(w http.ResponseWriter, r *http.Request, file string) {

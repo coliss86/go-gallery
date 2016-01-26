@@ -22,13 +22,13 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path"
 	"regexp"
 	"sort"
 	"strings"
 	"text/template"
 
 	"github.com/gmembre/go-gallery/pkg/conf"
+	"github.com/gmembre/go-gallery/pkg/file"
 	"github.com/gorilla/mux"
 	"github.com/jimlawless/cfg"
 )
@@ -68,7 +68,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	vars := mux.Vars(r)
 	folderS := vars["folder"]
-	folder := path.Join(conf.Config.Images, folderS)
+	folder := file.PathJoin(conf.Config.Images, folderS)
 	log.Println("Listing pictures in '", folder, "'")
 
 	// Return a 404 if the template doesn't exist
@@ -155,10 +155,10 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	check(err)
 }
 
-func manageFolder(folder string, file os.FileInfo, data Data) {
+func manageFolder(parent string, folder os.FileInfo, data Data) {
 	f := Item{}
 	month := ""
-	f.Link = file.Name()
+	f.Link = folder.Name()
 	matches := folderRE.FindStringSubmatch(f.Link)
 	if len(matches) > 0 {
 		f.Name = matches[2]
@@ -172,7 +172,7 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 		} else {
 			f.LongName = f.Link
 		}
-		meta := readMeta(path.Join(folder, f.Link))
+		meta := readMeta(file.PathJoin(parent, f.Link))
 		if meta != nil {
 			f.LongName = meta["title"]
 			f.LongName = strings.Replace(f.LongName, " ", "&nbsp;", -1)
@@ -188,7 +188,7 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 	}
 
 	// thumb folder
-	files, err := ioutil.ReadDir(path.Join(folder, file.Name()))
+	files, err := ioutil.ReadDir(file.PathJoin(parent, folder.Name()))
 	check(err)
 
 	for _, file := range files {
@@ -205,11 +205,10 @@ func manageFolder(folder string, file os.FileInfo, data Data) {
 		data.Folders[month] = make([]Item, 5)
 	}
 	data.Folders[month] = append(v, f)
-
 }
 
 func readMeta(folder string) map[string]string {
-	path := path.Join(folder, "meta.properties")
+	path := file.PathJoin(folder, "meta.properties")
 	info, err := os.Stat(path)
 	if err != nil || info.IsDir() {
 		return nil

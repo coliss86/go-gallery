@@ -49,8 +49,8 @@ func ManageTag(w http.ResponseWriter, r *http.Request) {
 
 func tagSelect(img string, tag string) {
 	log.Println("Copy", img, "to", tag)
-	src := path.Join(conf.Config.Images, img)
-	dest := path.Join(conf.Config.Export, tag, path.Base(img))
+	src := file.PathJoin(conf.Config.Images, img)
+	dest := file.PathJoin(conf.Config.Export, tag, path.Base(img))
 	err := file.CopyFile(src, dest)
 	if err != nil {
 		check(err, "Can't copy ", src, "to", dest, ":")
@@ -59,19 +59,19 @@ func tagSelect(img string, tag string) {
 
 func tagDeselect(img string, tag string) {
 	log.Println("Delete", img, "from", tag)
-	dest := path.Join(conf.Config.Export, tag, path.Base(img))
+	dest := file.PathJoin(conf.Config.Export, tag, path.Base(img))
 	os.Remove(dest)
 }
 
 func tagAdd(img string, tag string) {
 	log.Println("Create folder", tag)
-	os.MkdirAll(path.Join(conf.Config.Export, tag), os.ModePerm)
+	os.MkdirAll(file.PathJoin(conf.Config.Export, tag), os.ModePerm)
 }
 
 func tagDelete(img string, tag string) {
 	log.Println("Delete folder", tag)
-	err := os.RemoveAll(path.Join(conf.Config.Export, tag))
-	check(err, "Can't remove : ", path.Join(conf.Config.Export, tag), err)
+	err := os.RemoveAll(file.PathJoin(conf.Config.Export, tag))
+	check(err, "Can't remove : ", file.PathJoin(conf.Config.Export, tag), err)
 }
 
 func tagList() (tags []string) {
@@ -88,7 +88,7 @@ func tagList() (tags []string) {
 }
 
 func tagListPictures(tag string) (files []string) {
-	fs, err := ioutil.ReadDir(path.Join(conf.Config.Export, tag))
+	fs, err := ioutil.ReadDir(file.PathJoin(conf.Config.Export, tag))
 	check(err)
 
 	files = make([]string, 0)
