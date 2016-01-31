@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/gmembre/go-gallery",
+	"ImportPath": "gitlab.com/coliss86/go-gallery",
 	"GoVersion": "go1.5",
 	"Packages": [
 		"./..."

@@ -24,8 +24,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/gmembre/go-gallery/pkg/conf"
-	"github.com/gmembre/go-gallery/pkg/router"
+	"gitlab.com/coliss86/go-gallery/pkg/conf"
+	"gitlab.com/coliss86/go-gallery/pkg/router"
 )
 
 func main() {

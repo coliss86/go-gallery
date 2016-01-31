@@ -23,9 +23,9 @@ import (
 	"path"
 	"regexp"
 
-	"github.com/gmembre/go-gallery/pkg/conf"
-	"github.com/gmembre/go-gallery/pkg/file"
-	"github.com/gmembre/go-gallery/pkg/img"
+	"gitlab.com/coliss86/go-gallery/pkg/conf"
+	"gitlab.com/coliss86/go-gallery/pkg/file"
+	"gitlab.com/coliss86/go-gallery/pkg/img"
 	"github.com/gorilla/mux"
 )
 

@@ -20,7 +20,7 @@ package router
 import (
 	"net/http"
 
-	"github.com/gmembre/go-gallery/pkg/handler"
+	"gitlab.com/coliss86/go-gallery/pkg/handler"
 	"github.com/gorilla/mux"
 )
 
