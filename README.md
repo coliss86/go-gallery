@@ -56,9 +56,9 @@ Install
 Select an empty folder and run :
 ```console
 export GOPATH=`pwd`
-go get github.com/gmembre/go-gallery
+go get gitlab.com/gmembre/go-gallery
 ```
-It downloads the source from github and compiles it. The resulting binary is located in `$GOPATH/bin`.
+It downloads the source from gitlab and compiles it. The resulting binary is located in `$GOPATH/bin`.
 To run it :
 ```console
 $GOPATH/bin/go-gallery <config file>
@@ -75,12 +75,12 @@ port=9090
 
 Reporting Issues
 ----------
-  * Please report issues on [Github Issue Tracker](https://github.com/gmembre/go-gallery/issues).
+  * Please report issues on [Gitlab Issue Tracker](https://gitlab.com/gmembre/go-gallery/issues).
   * In your report, please provide steps to **reproduce** the issue.
   * Before reporting:
      * Make sure you are using the latest master.
      * Check existing open issues.
-  * Pull requests, documentation requests, and enhancement ideas are welcome.
+  * Merge requests, documentation requests, and enhancement ideas are welcome.
 
 License
 ----------
