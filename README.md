@@ -56,7 +56,7 @@ Install
 Select an empty folder and run :
 ```console
 export GOPATH=`pwd`
-go get gitlab.com/gmembre/go-gallery
+go get gitlab.com/coliss86/go-gallery
 ```
 It downloads the source from gitlab and compiles it. The resulting binary is located in `$GOPATH/bin`.
 To run it :
