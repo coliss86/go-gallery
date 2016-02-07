@@ -27,10 +27,9 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/gorilla/mux"
 	"gitlab.com/coliss86/go-gallery/pkg/conf"
 	"gitlab.com/coliss86/go-gallery/pkg/file"
-	"github.com/gorilla/mux"
-	"github.com/jimlawless/cfg"
 )
 
 type Item struct {
@@ -214,6 +213,6 @@ func readMeta(folder string) map[string]string {
 		return nil
 	}
 	meta := make(map[string]string)
-	cfg.Load(path, meta)
+	conf.Load(path, meta)
 	return meta
 }
