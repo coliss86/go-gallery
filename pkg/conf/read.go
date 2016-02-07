@@ -22,8 +22,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/jimlawless/cfg"
 )
 
 const DEFAULT_PORT = 9090
@@ -39,7 +37,7 @@ var Config Configuration
 
 func Read() Configuration {
 	meta := make(map[string]string)
-	err := cfg.Load(os.Args[1], meta)
+	err := Load(os.Args[1], meta)
 	check(err)
 
 	Config.Export = meta["export"]
