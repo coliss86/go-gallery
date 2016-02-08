@@ -11,6 +11,9 @@ $(document).ready(function() {
         }
     },
     afterLoad: function() {
+        if (this.title == '') {
+            this.title = this.href.substring(this.href.lastIndexOf("/") +1);
+        }
         this.title = '<a href="' + this.href.replace("/img/", "/download/") + '"><img src="/static/img/arrow_down_32.png" ></a><span title="' + this.title + '"> ' + this.title + '</span><span class="tag"><input type="text" name="tags" placeholder="Dossier" class="tm-input tm-input-small"/></span>';
     },
     afterShow: function() {
