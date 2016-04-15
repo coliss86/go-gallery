@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="/static/js/jquery.fancybox-2.1.5.pack.js"></script>
 		<script type="text/javascript" src="/static/js/gallery.js"></script>
 		<script type="text/javascript" src="/static/js/tagmanager.js"></script>
+		<script type="text/javascript" src="/static/js/jquery.lazy.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="/static/css/jquery.fancybox.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="/static/css/gallery.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="/static/css/tagmanager.css" media="screen" />
@@ -29,9 +30,9 @@
 				<div class="month">{{index $.MonthsName $month}}</div>
 				<div class="flex-container folders">
 				{{ range $value := index $.Folders $month }}
-					<div class="flex-folder {{ $value.Class }}"><a href="/ui/{{ $.Folder }}{{ $value.Link }}" title="{{ $value.Link }}">
+					<div class="flex-folder {{ $value.Class }} lazy"><a href="/ui/{{ $.Folder }}{{ $value.Link }}" title="{{ $value.Link }}">
 						{{if $value.Thumb }}
-							<img src="/thumb/{{ $.Folder }}{{ $value.Link }}/{{ $value.Thumb }}" alt="{{ $value.Link }}">
+							<img src="/static/img/blank.gif" data-src="/thumb/{{ $.Folder }}{{ $value.Link }}/{{ $value.Thumb }}" alt="{{ $value.Link }}">
 						{{else}}
 							<img src="/static/img/folder_blue.png">
 						{{end}}
@@ -46,13 +47,13 @@
 		{{if .Pictures}}
 			<div class="picture">Contenu de l'album '{{ .Title}}' <span>{{.Total}} médias</span></div>
 			<div class="flex-container pictures">
-				{{range .Pictures}}<div class="flex-img"><a class="fancybox fancybox.image" rel="group" href="/img/{{ $.Folder }}{{ . }}" title="{{ . }}"><img src="/thumb/{{ $.Folder }}{{ . }}" alt="{{ . }}"/></a></div>
+				{{range .Pictures}}<div class="flex-img lazy"><a class="fancybox fancybox.image" rel="group" href="/img/{{ $.Folder }}{{ . }}" title="{{ . }}"><img src="/static/img/blank.gif" data-src="/thumb/{{ $.Folder }}{{ . }}" alt="{{ . }}" /></a></div>
 				{{end}}
-				{{range .Videos}}<div class="flex-img"><a class="fancybox fancybox.html" rel="group" href="/download/{{ $.Folder }}{{ . }}" title="{{ . }}" data-width="640" data-height="480" data-video="video"><img src="/static/img/video-play.png" alt="{{ . }}" /></a></div>
+				{{range .Videos}}<div class="flex-img lazy"><a class="fancybox fancybox.html" rel="group" href="/download/{{ $.Folder }}{{ . }}" title="{{ . }}" data-width="640" data-height="480" data-video="video"><img src="/static/img/blank.gif" data-src="/static/img/video-play.png" alt="{{ . }}" /></a></div>
 				{{end}}
 			</div>
 		{{end}}
-		{{ if and  (not  .Pictures) (not  .Folders) }}
+		{{ if and (not  .Pictures) (not  .Folders) }}
 			<div class="nada">Pas d'éléments affichable</div>
 		{{end}}
 		<script type="text/javascript">

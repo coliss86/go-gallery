@@ -94,4 +94,5 @@ It also uses third-party libraries and programs:
   * Icon Author: sa-ki (License: Free for personal non-commercial use) : http://sa-ki.deviantart.com
   * A configuration file parser library for Go / Golang (The MIT License) : ~~https://github.com/jimlawless/cfg/~~
   * Gorilla web toolkit ([BSD licensed](https://opensource.org/licenses/BSD-2-Clause)) : http://www.gorillatoolkit.org/
-  * Play icon (CC0 1.0 Universal (CC0 1.0) Public Domain Dedication License) :  http://www.iconsdb.com/caribbean-blue-icons/video-play-3-icon.html
+  * Play icon (CC0 1.0 Universal (CC0 1.0) Public Domain Dedication License) : http://www.iconsdb.com/caribbean-blue-icons/video-play-3-icon.html
+  * jQuery Lazy (MIT License) : http://jquery.eisbehr.de/lazy/
