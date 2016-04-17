@@ -1,5 +1,19 @@
+body {
+  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #555;
+}
+
+a {
+  text-decoration: none;
+  color: #3084bb;
+}
+
 a:active, a:focus {
-    outline: none;
+  outline: none;
+}
+ 
+.ui_grey {
+  background-color: #faf9f9;
 }
 
 .breadcrum {
@@ -137,6 +151,9 @@ a:active, a:focus {
   left: -35px;
 }
 
+.fancybox-title {
+  line-height: 1.5em !important;
+}
 .tag {
   position: absolute;
   right: 0px;
