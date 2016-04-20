@@ -35,7 +35,7 @@ a:active, a:focus {
 
 .flex-folder {
   position: relative;
-  border: 3px solid white;
+  border: 3px solid transparent;
   margin: 20px;
   width: 100px;
   height: 100px;
