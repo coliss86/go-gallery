@@ -1,6 +1,7 @@
 body {
   font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
   color: #555;
+  padding-top: 60px;
 }
 
 a {
@@ -11,17 +12,26 @@ a {
 a:active, a:focus {
   outline: none;
 }
- 
+
 .ui_grey {
   background-color: #faf9f9;
+  border-radius: 10px;
 }
 
-.breadcrum {
-  padding-bottom: 1em;
+.nav .breadcrumb {
+  float: left;
+  margin: 7px 10px;
+  background: inherit;
 }
 
-.breadcrum img {
-  vertical-align: top;
+.breadcrumb > li + li::before {
+  color: #ccc;
+  content: "\00BB";
+  padding: 0 10px 0 0;
+}
+
+.breadcrumb.list-inline > li {
+  padding-right: 0px;
 }
 
 .flex-container {
@@ -52,14 +62,14 @@ a:active, a:focus {
 }
 
 .flex-folder img {
-  width: 100px;
+  width: 94px;
 }
 
 .flex-folder p {
-  bottom: -1.2em;
+  bottom: -0.5em;
   color: white;
   text-shadow: 2px 2px 4px #000000;
-  font-family: sans-serif;
+  font-family: Georgia,"Times New Roman",serif;
   position: absolute;
 }
 
@@ -83,11 +93,16 @@ a:active, a:focus {
   width: 100px;
   padding-bottom: 6px;
   margin-bottom: 1em;
+  bottom: -1.1em;
+}
+
+.flex-folder.folder-long {
+    z-index: 10;
 }
 
 .folder-long p:hover {
   width: inherit;
-  z-index: 10;
+  z-index: 20;
   background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.65) 40%, rgba(0,0,0,0.65) 100%);
   background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.65) 40%,rgba(0,0,0,0.65) 100%);
   background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.65) 40%,rgba(0,0,0,0.65) 100%);
@@ -112,7 +127,7 @@ a:active, a:focus {
 .month, .picture {
   border-bottom: 1px solid #ddd;
   font-size: 150%;
-  padding-left: 0.5em;
+  padding: 0.5em;
 }
 
 .nada {
@@ -154,6 +169,7 @@ a:active, a:focus {
 .fancybox-title {
   line-height: 1.5em !important;
 }
+
 .tag {
   position: absolute;
   right: 0px;
