@@ -89,6 +89,15 @@ $(document).ready(function() {
     }
   );
 
+  $('.folder-long').hover(
+    function() {
+      $( this ).stop().fadeTo('fast', '1');
+    },
+    function() {
+      $( this ).stop().fadeTo('fast', '0.8');
+    }
+  );
+
   $('.lazy img').lazy({
     effect: "fadeIn",
     effectTime: 700,
