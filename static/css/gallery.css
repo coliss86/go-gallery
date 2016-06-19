@@ -74,9 +74,7 @@ a:active, a:focus {
 }
 
 .legend {
-  /* evite le clignotement lorsque la souris passe de la miniature à la légende */
-  padding-top : 5px;
-  margin-top: -5px;
+  line-height: 2em;
   opacity: 0;
 }
 
@@ -92,23 +90,19 @@ a:active, a:focus {
   overflow: hidden;
   width: 100px;
   padding-bottom: 6px;
-  margin-bottom: 1em;
-  bottom: -1.1em;
+  bottom: -10px;
 }
 
 .flex-folder.folder-long {
-    z-index: 10;
+  z-index: 10;
 }
 
 .folder-long p:hover {
   width: inherit;
   z-index: 20;
-  background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.65) 40%, rgba(0,0,0,0.65) 100%);
-  background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.65) 40%,rgba(0,0,0,0.65) 100%);
-  background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.65) 40%,rgba(0,0,0,0.65) 100%);
+  background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0.65) 48%, rgba(0,0,0,0.65) 100%);
   border-radius: 10px;
-  padding-right: 6px;
-  padding-top: 4px;
+  padding: 4px 6px 6px 5px;
 }
 
 .folder-thumb {
@@ -122,6 +116,10 @@ a:active, a:focus {
   border: 3px solid white;
   box-shadow: 0px 0px 8px rgba(0,0,0,.3);
   margin: 20px;
+}
+
+.month {
+  text-shadow: 1px 1px 1px #cccccc;
 }
 
 .month, .picture {
