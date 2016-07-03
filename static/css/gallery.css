@@ -18,6 +18,10 @@ a:active, a:focus {
   border-radius: 10px;
 }
 
+.container {
+  width: 100%;
+}
+
 .nav .breadcrumb {
   float: left;
   margin: 7px 10px;
