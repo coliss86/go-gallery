@@ -1,0 +1,59 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:		hostapd
+# Required-Start:	$remote_fs $network
+# Required-Stop:	$remote_fs $network
+# Should-Start:		
+# Should-Stop:
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	Go-gallery
+# Description:		Web gallery 
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON_SBIN=/usr/local/share/go-gallery/go-gallery
+DAEMON_DEFS=
+DAEMON_CONF=/etc/go-gallery.conf
+NAME=go-gallery
+DESC="Web gallery"
+PIDFILE=/var/run/$NAME.pid
+
+[ -x "$DAEMON_SBIN" ] || exit 0
+[ -s "$DAEMON_DEFS" ] && . /etc/default/go-gallery
+[ -n "$DAEMON_CONF" ] || exit 0
+
+DAEMON_OPTS="$DAEMON_OPTS $DAEMON_CONF"
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+	log_daemon_msg "Starting $DESC" "$NAME"
+	start-stop-daemon --start --oknodo --quiet --background --chuid www-data --exec "$DAEMON_SBIN" \
+		--make-pidfile --pidfile "$PIDFILE" -- $DAEMON_OPTS >/dev/null
+	log_end_msg "$?"
+	;;
+  stop)
+	log_daemon_msg "Stopping $DESC" "$NAME"
+	start-stop-daemon --stop --oknodo --quiet --remove-pidfile --pidfile "$PIDFILE"
+	log_end_msg "$?"
+	;;
+  restart|force-reload)
+  	$0 stop
+	sleep 1
+	$0 start
+	;;
+  status)
+	status_of_proc "$DAEMON_SBIN" "$NAME"
+	exit $?
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop|restart|force-reload|status}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
