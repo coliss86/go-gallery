@@ -60,6 +60,7 @@ var folderExcludeRE = regexp.MustCompile("(?i)\\.Trash.*")
 var pictureRE = regexp.MustCompile("(?i).*\\.(jpeg|jpg|gif|png|bmp)$")
 var urlFolderRE = regexp.MustCompile("(.*)/([^/]*)/?")
 var videoRE = regexp.MustCompile("(?i).*(mp4|m4v|mpeg|mpg|avi)$")
+var BaseDir string
 
 //var templates = template.Must(template.ParseFiles("template/img.tmpl"))
 
@@ -70,7 +71,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	folder := file.PathJoin(conf.Config.Images, folderS)
 	log.Println("Listing pictures in '", folder, "'")
 
-	// Return a 404 if the template doesn't exist
+	// Return a 404 if the folder doesn't exist
 	info, err := os.Stat(folder)
 	if err != nil && os.IsNotExist(err) || !info.IsDir() {
 		http.NotFound(w, r)
@@ -149,7 +150,7 @@ func RenderUI(w http.ResponseWriter, r *http.Request) {
 	data.Total = len(data.Videos) + len(data.Pictures)
 
 	// final generation
-	var templates = template.Must(template.ParseFiles("template/gallery.tmpl"))
+	var templates = template.Must(template.ParseFiles(BaseDir + "/template/gallery.tmpl"))
 	err = templates.Execute(w, data)
 	check(err)
 }

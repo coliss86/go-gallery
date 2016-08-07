@@ -23,8 +23,10 @@ import (
 	"net/http"
 	"os"
 	"path"
+    "path/filepath"
 
 	"gitlab.com/coliss86/go-gallery/pkg/conf"
+	"gitlab.com/coliss86/go-gallery/pkg/handler"
 	"gitlab.com/coliss86/go-gallery/pkg/router"
 )
 
@@ -40,9 +42,15 @@ func main() {
 	dirExport := path.Dir(conf.Config.Export)
 	os.MkdirAll(dirExport, os.ModePerm)
 
-	log.Println("Listening on", conf.Config.Port)
+    // BaseDir = folder where the binary is stored, all ressources are accessed relativ to this folder
+    baseDir, errb := filepath.Abs(filepath.Dir(os.Args[0]))
+    check(errb)
+    router.BaseDir = baseDir
+    handler.BaseDir = baseDir
 
 	router.NewRouter()
+
+	log.Println("Listening on", conf.Config.Port)
 	err := http.ListenAndServe(fmt.Sprintf(":%d", conf.Config.Port), nil)
 	check(err)
 }
