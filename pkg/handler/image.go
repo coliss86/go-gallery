@@ -23,10 +23,10 @@ import (
 	"path"
 	"regexp"
 
+	"github.com/gorilla/mux"
 	"gitlab.com/coliss86/go-gallery/pkg/conf"
 	"gitlab.com/coliss86/go-gallery/pkg/file"
 	"gitlab.com/coliss86/go-gallery/pkg/img"
-	"github.com/gorilla/mux"
 )
 
 var urlImgRE = regexp.MustCompile("(.*)/([^/]*)/?")
@@ -34,16 +34,27 @@ var urlImgRE = regexp.MustCompile("(.*)/([^/]*)/?")
 func RenderImg(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	vars := mux.Vars(r)
+
 	serveFile(w, r, file.PathJoin(conf.Config.Images, vars["img"]))
 }
 
+type convert func(string, string)
+
 func RenderThumb(w http.ResponseWriter, r *http.Request) {
+	renderImageResize(w, r, img.ConvertThumbnail, "thumb")
+}
+
+func RenderSmall(w http.ResponseWriter, r *http.Request) {
+	renderImageResize(w, r, img.ConvertSmall, "small")
+}
+
+func renderImageResize(w http.ResponseWriter, r *http.Request, fn convert, cacheName string) {
 	r.ParseForm()
 	vars := mux.Vars(r)
 	thumb := vars["img"]
 
 	ir := file.PathJoin(conf.Config.Images, thumb)
-	ic := file.PathJoin(conf.Config.Cache, thumb)
+	ic := file.PathJoin(conf.Config.Cache, cacheName, thumb)
 	// Return a 404 if the template doesn't exist
 	infoir, err := os.Stat(ir)
 	if err != nil && os.IsNotExist(err) || infoir.IsDir() {
@@ -56,7 +67,7 @@ func RenderThumb(w http.ResponseWriter, r *http.Request) {
 
 	infoic, err := os.Stat(ic)
 	if err != nil && os.IsNotExist(err) || infoir.ModTime().After(infoic.ModTime()) {
-		img.ConvertThumbnail(ir, ic)
+		fn(ir, ic)
 	}
 
 	serveFile(w, r, ic)

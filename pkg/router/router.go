@@ -20,8 +20,8 @@ package router
 import (
 	"net/http"
 
-	"gitlab.com/coliss86/go-gallery/pkg/handler"
 	"github.com/gorilla/mux"
+	"gitlab.com/coliss86/go-gallery/pkg/handler"
 )
 
 var BaseDir string
@@ -33,6 +33,7 @@ func NewRouter() *mux.Router {
 	router.HandleFunc("/ui/{folder:.*}", handler.RenderUI)
 	router.HandleFunc("/tag/{action}/{tag}", handler.ManageTag)
 	router.HandleFunc("/thumb/{img:.*}", handler.RenderThumb)
+	router.HandleFunc("/small/{img:.*}", handler.RenderSmall)
 	router.HandleFunc("/download/{img:.*}", handler.RenderDownload)
 	router.HandleFunc("/img/{img:.*}", handler.RenderImg)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

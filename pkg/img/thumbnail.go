@@ -33,7 +33,20 @@ func ConvertThumbnail(origName, newName string) {
 		"-extent", "100x100",
 		origName, newName,
 	}
+	convert(args)
+}
 
+func ConvertSmall(origName, newName string) {
+	// convert -resize x500 original.jpeg thumbnail.jpeg
+	var args = []string{
+		"-auto-orient",
+		"-resize", "x500",
+		origName, newName,
+	}
+	convert(args)
+}
+
+func convert(args []string) {
 	var cmd *exec.Cmd
 	path, _ := exec.LookPath("convert")
 	cmd = exec.Command(path, args...)
