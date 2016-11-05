@@ -21,6 +21,8 @@ import (
 	"bytes"
 	"log"
 	"os/exec"
+
+	"gitlab.com/coliss86/go-gallery/pkg/conf"
 )
 
 func ConvertThumbnail(origName, newName string) {
@@ -40,7 +42,7 @@ func ConvertSmall(origName, newName string) {
 	// convert -resize x500 original.jpeg thumbnail.jpeg
 	var args = []string{
 		"-auto-orient",
-		"-resize", "x500",
+		"-resize", "x" + conf.Config.SmallSize,
 		origName, newName,
 	}
 	convert(args)

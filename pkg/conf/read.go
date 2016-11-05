@@ -27,10 +27,11 @@ import (
 const DEFAULT_PORT = 9090
 
 type Configuration struct {
-	Images string
-	Cache  string
-	Export string
-	Port   int
+	Images    string
+	Cache     string
+	Export    string
+	Port      int
+	SmallSize string
 }
 
 var Config Configuration
@@ -43,6 +44,7 @@ func Read() Configuration {
 	Config.Export = meta["export"]
 	Config.Cache = meta["cache"]
 	Config.Images = meta["images"]
+	Config.SmallSize = meta["smallsize"]
 	port, ok := meta["port"]
 	if ok {
 		Config.Port, err = strconv.Atoi(port)
@@ -64,6 +66,10 @@ func Read() Configuration {
 	}
 	if !strings.HasSuffix(Config.Cache, "/") {
 		Config.Cache += "/"
+	}
+
+	if Config.SmallSize == "" {
+		Config.SmallSize = "500"
 	}
 
 	log.Println("Images directory", Config.Images)
