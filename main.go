@@ -23,7 +23,7 @@ import (
 	"net/http"
 	"os"
 	"path"
-    "path/filepath"
+	"path/filepath"
 
 	"gitlab.com/coliss86/go-gallery/pkg/conf"
 	"gitlab.com/coliss86/go-gallery/pkg/handler"
@@ -42,11 +42,11 @@ func main() {
 	dirExport := path.Dir(conf.Config.Export)
 	os.MkdirAll(dirExport, os.ModePerm)
 
-    // BaseDir = folder where the binary is stored, all ressources are accessed relativ to this folder
-    baseDir, errb := filepath.Abs(filepath.Dir(os.Args[0]))
-    check(errb)
-    router.BaseDir = baseDir
-    handler.BaseDir = baseDir
+	// BaseDir = folder where the binary is stored, all ressources are accessed relativ to this folder
+	baseDir, errb := filepath.Abs(filepath.Dir(os.Args[0]))
+	check(errb)
+	router.BaseDir = baseDir
+	handler.BaseDir = baseDir
 
 	router.NewRouter()
 
