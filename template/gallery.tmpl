@@ -54,7 +54,7 @@
 					</div>
 				{{end}}
 			{{end}}
-			{{if .Pictures}}
+			{{if or .Pictures .Videos}}
 				<div class="picture">Contenu de l'album '{{ .Title}}' <span>{{.Total}} médias</span></div>
 				<div class="flex-container pictures">
 					{{range .Pictures}}<div class="flex-img lazy"><a class="fancybox fancybox.image" rel="group" href="/small/{{ $.Folder }}{{ . }}" title="{{ . }}"><img src="/static/img/blank.gif" data-src="/thumb/{{ $.Folder }}{{ . }}" alt="{{ . }}" /></a></div>
@@ -63,8 +63,8 @@
 					{{end}}
 				</div>
 			{{end}}
-			{{ if and (not  .Pictures) (not  .Folders) }}
-				<div class="nada">Pas d'éléments affichable</div>
+			{{ if and (not .Pictures) (not .Folders) (not .Videos)}}
+				<div class="nada">Aucun élément affichable</div>
 			{{end}}
 			</div>
 		</div>
