@@ -75,7 +75,7 @@ port=9090
 
 Reporting Issues
 ----------
-  * Please report issues on [Gitlab Issue Tracker](https://gitlab.com/gmembre/go-gallery/issues).
+  * Please report issues on [Gitlab Issue Tracker](https://gitlab.com/coliss86/go-gallery/issues).
   * In your report, please provide steps to **reproduce** the issue.
   * Before reporting:
      * Make sure you are using the latest master.
