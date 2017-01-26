@@ -14,10 +14,10 @@ $(document).ready(function() {
         if (this.title == '') {
             this.title = this.href.substring(this.href.lastIndexOf("/") +1);
         }
-        this.title = '<a href="' + this.href.replace("/small/", "/download/") + '"><img src="/static/img/arrow_down_32.png" /></a>&nbsp;<a href="' + this.href.replace("/small/", "/img/") + '"><img src="/static/img/link.png" /></a>&nbsp;<span title="' + this.title + '"> ' + this.title + '</span><span class="tag"><input type="text" name="tags" placeholder="Dossier" class="tm-input tm-input-small"/></span>';
+        this.title = '<a href="' + this.href.replace("small/", "download/") + '"><img src="static/img/arrow_down_32.png" /></a>&nbsp;<a href="' + this.href.replace("small/", "img/") + '"><img src="static/img/link.png" /></a>&nbsp;<span title="' + this.title + '"> ' + this.title + '</span><span class="tag"><input type="text" name="tags" placeholder="Dossier" class="tm-input tm-input-small"/></span>';
     },
     afterShow: function() {
-      var img = this.href.replace("/small/", "");
+      var img = this.href.replace("small/", "");
 
       var tab = $(".tm-input").tagsManager({
         prefilled: folders,
@@ -39,18 +39,18 @@ $(document).ready(function() {
         }
       }
       tab.on('tm:pushed', function(e, tag) {
-        $.post("/tag/add/" + tag, { img: img });
+        $.post("tag/add/" + tag, { img: img });
         folders.push(tag);
       });
       tab.on('tm:spliced', function(e, tag) {
-        $.post("/tag/delete/" + tag, { img: img });
+        $.post("tag/delete/" + tag, { img: img });
         folders.splice(folders.indexOf(tag),1);
       });
       tab.on('tm:selected', function(e, tag) {
-        $.post("/tag/select/" + tag, { img: img });
+        $.post("tag/select/" + tag, { img: img });
       });
       tab.on('tm:deselected', function(e, tag) {
-        $.post("/tag/deselect/" + tag, { img: img });
+        $.post("tag/deselect/" + tag, { img: img });
       });
     },
     beforeLoad : function () {

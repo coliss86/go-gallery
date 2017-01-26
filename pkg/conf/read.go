@@ -27,11 +27,12 @@ import (
 const DEFAULT_PORT = 9090
 
 type Configuration struct {
-	Images    string
-	Cache     string
-	Export    string
-	Port      int
-	SmallSize string
+	Images      string
+	Cache       string
+	Export      string
+	Port        int
+	SmallSize   string
+	ContextRoot string
 }
 
 var Config Configuration
@@ -44,7 +45,8 @@ func Read() Configuration {
 	Config.Export = meta["export"]
 	Config.Cache = meta["cache"]
 	Config.Images = meta["images"]
-	Config.SmallSize = meta["smallsize"]
+	Config.SmallSize = meta["smallSize"]
+	Config.ContextRoot = meta["contextRoot"]
 	port, ok := meta["port"]
 	if ok {
 		Config.Port, err = strconv.Atoi(port)

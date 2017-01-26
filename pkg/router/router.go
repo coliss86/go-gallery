@@ -21,6 +21,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"gitlab.com/coliss86/go-gallery/pkg/conf"
 	"gitlab.com/coliss86/go-gallery/pkg/handler"
 )
 
@@ -29,20 +30,20 @@ var BaseDir string
 func NewRouter() *mux.Router {
 
 	router := mux.NewRouter()
-	router.HandleFunc("/ui", handler.RenderUI)
-	router.HandleFunc("/ui/{folder:.*}", handler.RenderUI)
-	router.HandleFunc("/tag/{action}/{tag}", handler.ManageTag)
-	router.HandleFunc("/thumb/{img:.*}", handler.RenderThumb)
-	router.HandleFunc("/small/{img:.*}", handler.RenderSmall)
-	router.HandleFunc("/download/{img:.*}", handler.RenderDownload)
-	router.HandleFunc("/img/{img:.*}", handler.RenderImg)
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc(conf.Config.ContextRoot+"/ui", handler.RenderUI)
+	router.HandleFunc(conf.Config.ContextRoot+"/ui/{folder:.*}", handler.RenderUI)
+	router.HandleFunc(conf.Config.ContextRoot+"/tag/{action}/{tag}", handler.ManageTag)
+	router.HandleFunc(conf.Config.ContextRoot+"/thumb/{img:.*}", handler.RenderThumb)
+	router.HandleFunc(conf.Config.ContextRoot+"/small/{img:.*}", handler.RenderSmall)
+	router.HandleFunc(conf.Config.ContextRoot+"/download/{img:.*}", handler.RenderDownload)
+	router.HandleFunc(conf.Config.ContextRoot+"/img/{img:.*}", handler.RenderImg)
+	router.HandleFunc(conf.Config.ContextRoot+"/", func(w http.ResponseWriter, r *http.Request) {
 		//redirecting to /ui/ when / is called
-		http.Redirect(w, r, "/ui/", http.StatusMovedPermanently)
+		http.Redirect(w, r, conf.Config.ContextRoot+"/ui/", http.StatusMovedPermanently)
 	})
-	http.Handle("/", router)
+	http.Handle(conf.Config.ContextRoot+"/", router)
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir(BaseDir + "/static"))))
+	http.Handle(conf.Config.ContextRoot+"/static/", http.StripPrefix(conf.Config.ContextRoot+"/static/", http.FileServer(http.Dir(BaseDir+"/static"))))
 
 	return router
 }

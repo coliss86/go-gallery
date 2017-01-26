@@ -79,7 +79,7 @@ func Load(filename string, dest map[string]string) error {
 		if strings.HasPrefix(s2[i], "#") {
 			i++
 		} else if strings.HasSuffix(s2[i], "=") {
-			key := strings.ToLower(s2[i])[0 : len(s2[i])-1]
+			key := s2[i][0 : len(s2[i])-1]
 			i++
 			if strings.HasSuffix(s2[i], "\n") {
 				val := s2[i][0 : len(s2[i])-1]

@@ -3,25 +3,26 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Dossier {{.Title}}</title>
-		<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="/static/css/jquery.fancybox.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="/static/css/gallery.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="/static/css/tagmanager.css" media="screen" />
+		<base href="{{.ContextRoot}}/" />
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="static/css/jquery.fancybox.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="static/css/gallery.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="static/css/tagmanager.css" media="screen" />
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/ui">Gallery</a>
+          <a class="navbar-brand" href="ui">Gallery</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
 					{{if .Breadcrum}}
 						<ul class="breadcrumb list-inline">
-							<li class="active"><a href="/ui">Home</a></li>
+							<li class="active"><a href="ui">Home</a></li>
 							{{range .Breadcrum}}
 								{{if .Link}}
-								<li><a href="/ui/{{.Link}}">{{.Name}}</a></li>
+								<li><a href="ui/{{.Link}}">{{.Name}}</a></li>
 								{{else}}
 								<li class="active">{{.Name}}</li>
 								{{end}}
@@ -40,11 +41,11 @@
 					<div class="month">{{index $.MonthsName $month}}</div>
 					<div class="flex-container folders">
 					{{ range $value := index $.Folders $month }}
-						<div class="flex-folder {{ $value.Class }} lazy"><a href="/ui/{{ $.Folder }}{{ $value.Link }}" title="{{ $value.Link }}">
+						<div class="flex-folder {{ $value.Class }} lazy"><a href="ui/{{ $.Folder }}{{ $value.Link }}" title="{{ $value.Link }}">
 							{{if $value.Thumb }}
-								<img src="/static/img/blank.gif" data-src="/thumb/{{ $.Folder }}{{ $value.Link }}/{{ $value.Thumb }}" alt="{{ $value.Link }}">
+								<img src="static/img/blank.gif" data-src="thumb/{{ $.Folder }}{{ $value.Link }}/{{ $value.Thumb }}" alt="{{ $value.Link }}">
 							{{else}}
-								<img src="/static/img/folder_blue.png">
+								<img src="static/img/folder_blue.png">
 							{{end}}
 							<p>{{ $value.Name }}</p>
 							<span class="legend">{{ $value.LongName }}</span>
@@ -57,9 +58,9 @@
 			{{if or .Pictures .Videos}}
 				<div class="picture">Contenu de l'album '{{ .Title}}' <span>{{.Total}} médias</span></div>
 				<div class="flex-container pictures">
-					{{range .Pictures}}<div class="flex-img lazy"><a class="fancybox fancybox.image" rel="group" href="/small/{{ $.Folder }}{{ . }}" title="{{ . }}"><img src="/static/img/blank.gif" data-src="/thumb/{{ $.Folder }}{{ . }}" alt="{{ . }}" /></a></div>
+					{{range .Pictures}}<div class="flex-img lazy"><a class="fancybox fancybox.image" rel="group" href="small/{{ $.Folder }}{{ . }}" title="{{ . }}"><img src="static/img/blank.gif" data-src="thumb/{{ $.Folder }}{{ . }}" alt="{{ . }}" /></a></div>
 					{{end}}
-					{{range .Videos}}<div class="flex-img lazy"><a class="fancybox fancybox.html" rel="group" href="/download/{{ $.Folder }}{{ . }}" title="{{ . }}" data-width="640" data-height="480" data-video="video"><img src="/static/img/blank.gif" data-src="/static/img/video-play.png" alt="{{ . }}" /></a></div>
+					{{range .Videos}}<div class="flex-img lazy"><a class="fancybox fancybox.html" rel="group" href="download/{{ $.Folder }}{{ . }}" title="{{ . }}" data-width="640" data-height="480" data-video="video"><img src="static/img/blank.gif" data-src="static/img/video-play.png" alt="{{ . }}" /></a></div>
 					{{end}}
 				</div>
 			{{end}}
@@ -73,12 +74,12 @@
 		{{ range $key, $value := .TagsPictures }}
 		   "{{ $key }}" : [{{ range $value }}"{{.}}", {{end}}],
 		{{ end }}
-		}
+		};
 		</script>
-		<script type="text/javascript" src="/static/js/jquery-1.10.1.min.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.fancybox-2.1.5.pack.js"></script>
-		<script type="text/javascript" src="/static/js/gallery.js"></script>
-		<script type="text/javascript" src="/static/js/tagmanager.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.lazy.min.js"></script>
+		<script type="text/javascript" src="static/js/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="static/js/jquery.fancybox-2.1.5.pack.js"></script>
+		<script type="text/javascript" src="static/js/gallery.js"></script>
+		<script type="text/javascript" src="static/js/tagmanager.js"></script>
+		<script type="text/javascript" src="static/js/jquery.lazy.min.js"></script>
 	</body>
 </html>
